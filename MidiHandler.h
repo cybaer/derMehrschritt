@@ -1,14 +1,14 @@
 /*
  * MidiHandler.h
  *
- *  Created on: 14.01.2013
+ *  Created on: 15.09.2015
  *      Author: cybaer
  */
 
 #ifndef MIDIHANDLER_H_
 #define MIDIHANDLER_H_
 
-#include "midi/midi.h"
+#include "lib/midi/midi.h"
 
 
 //extern CPingOmat ping;

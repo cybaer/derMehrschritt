@@ -1,6 +1,13 @@
+/*
+ * derMehrschritt.cpp
+ *
+ *  Created on: 13.09.2015
+ *      Author: cybaer
+ */
+
+
 #include <avr/interrupt.h>      // Header-Datei f. Interruptfunktion
-#include "avrlib/parallel_io.h"
-#include "avrlib/devices/shift_register.h"
+#include "avrlib/time.h"
 #include "avrlib/spi.h"
 #include "avrlib/gpio.h"
 //#include "mcp23s17.h"
