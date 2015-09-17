@@ -13,12 +13,14 @@
 
 //extern CPingOmat ping;
 //extern Ui ui;
+extern void setNoteValue(uint8_t note);
 
   struct MidiHandler : public midi::MidiDevice
   {
     static void NoteOn(uint8_t channel, uint8_t note, uint8_t velocity)
     {
       //ping.OnNoteOn(channel, note, velocity);
+      setNoteValue(note);
     }
 
     static void NoteOff(uint8_t channel, uint8_t note, uint8_t velocity)
