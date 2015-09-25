@@ -31,12 +31,12 @@ MidiStreamParser<MidiHandler> midiParser;
 
 static const uint8_t SPI_Speed = 4;
 typedef SpiMaster<NumberedGpio<4>, MSB_FIRST, SPI_Speed> spi_master;
-Dac<spi_master, UNBUFFERED_REFERENCE, 1> dac;
+Dac<spi_master, UNBUFFERED_REFERENCE, 2> dac;
 
 void setNoteValue(uint8_t note)
 {
-  unsigned int volts = note << 5;
-  volts += 10;  // for offset
+  unsigned int volts = note << 2;
+  //volts += 10;  // for offset
   volts &= 0x0fff;
   dac.Write(volts, 0);
   dac.Write(volts, 1);
@@ -49,6 +49,7 @@ int main(void)
   Debug1::set_mode(DIGITAL_OUTPUT);
   Debug1::set_value(false);
   midi_io.Init();
+  spi_master::Init();
   dac.Init();
 
   while(1)
@@ -62,7 +63,7 @@ int main(void)
         midiParser.PushByte(byte);
       }
     }
-    _delay_ms(50);
+    _delay_ms(10);
     Debug1::Low();
   }
 }
