@@ -16,7 +16,6 @@
 #include "lib/midi/midi.h"
 #include "MidiHandler.h"
 
-
 // __Compiler Bug__
 //int __cxa_guard_acquire(__guard *g) {return !*(char *)(g);};
 //void __cxa_guard_release (__guard *g) {*(char *)g = 1;};
@@ -30,14 +29,14 @@ Serial<MidiPort, 31250, POLLED, POLLED> midi_io;
 MidiStreamParser<MidiHandler> midiParser;
 
 static const uint8_t SPI_Speed = 4;
+static const uint8_t DAC_GAIN = 1;
 typedef SpiMaster<NumberedGpio<4>, MSB_FIRST, SPI_Speed> spi_master;
-Dac<spi_master, UNBUFFERED_REFERENCE, 2> dac;
+Dac<spi_master, UNBUFFERED_REFERENCE, DAC_GAIN> dac;
 
 void setNoteValue(uint8_t note)
 {
-  unsigned int volts = note << 2;
-  //volts += 10;  // for offset
-  volts &= 0x0fff;
+  uint16_t volts = note;
+  volts <<= 5;
   dac.Write(volts, 0);
   dac.Write(volts, 1);
 }

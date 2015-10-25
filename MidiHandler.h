@@ -20,12 +20,12 @@ extern void setNoteValue(uint8_t note);
     static void NoteOn(uint8_t channel, uint8_t note, uint8_t velocity)
     {
       //ping.OnNoteOn(channel, note, velocity);
-      setNoteValue(127);
+      setNoteValue(note);
     }
 
     static void NoteOff(uint8_t channel, uint8_t note, uint8_t velocity)
     {
-      setNoteValue(0);
+      //setNoteValue(0);
     }
 
     static void Clock()
