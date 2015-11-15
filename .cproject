@@ -32,8 +32,8 @@
 							<tool id="de.innot.avreclipse.tool.compiler.winavr.app.debug.1018722107" name="AVR Compiler" superClass="de.innot.avreclipse.tool.compiler.winavr.app.debug">
 								<option id="de.innot.avreclipse.compiler.option.debug.level.1014363756" name="Generate Debugging Info" superClass="de.innot.avreclipse.compiler.option.debug.level"/>
 								<option id="de.innot.avreclipse.compiler.option.optimize.2066636686" name="Optimization Level" superClass="de.innot.avreclipse.compiler.option.optimize"/>
-								<option id="de.innot.avreclipse.compiler.option.incpath.67098089" name="Include Paths (-I)" superClass="de.innot.avreclipse.compiler.option.incpath" valueType="includePath"/>
-								<option id="de.innot.avreclipse.compiler.option.def.1521426625" name="Define Syms (-D)" superClass="de.innot.avreclipse.compiler.option.def" valueType="definedSymbols"/>
+								<option id="de.innot.avreclipse.compiler.option.incpath.67098089" name="Include Paths (-I)" superClass="de.innot.avreclipse.compiler.option.incpath"/>
+								<option id="de.innot.avreclipse.compiler.option.def.1521426625" name="Define Syms (-D)" superClass="de.innot.avreclipse.compiler.option.def"/>
 								<inputType id="de.innot.avreclipse.compiler.winavr.input.458559573" name="C Source Files" superClass="de.innot.avreclipse.compiler.winavr.input"/>
 							</tool>
 							<tool id="de.innot.avreclipse.tool.cppcompiler.app.debug.1391197007" name="AVR C++ Compiler" superClass="de.innot.avreclipse.tool.cppcompiler.app.debug">
@@ -105,6 +105,7 @@
 								</option>
 								<option id="de.innot.avreclipse.cppcompiler.option.incpath.582638339" name="Include Paths (-I)" superClass="de.innot.avreclipse.cppcompiler.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="/home/cybaer/git/lib/"/>
+									<listOptionValue builtIn="false" value="/home/cybaer/git/Adafruit_GFX_Library"/>
 									<listOptionValue builtIn="false" value="/home/cybaer/git/"/>
 								</option>
 								<inputType id="de.innot.avreclipse.cppcompiler.input.1401245374" superClass="de.innot.avreclipse.cppcompiler.input"/>
