@@ -13,6 +13,7 @@
 #include "avrlib/spi.h"
 #include "avrlib/devices/mcp492x.h"
 #include "avrlib/devices/ssd1306.h"
+#include "avrlib/devices/mcp23s17.h"
 
 //#include "avrlib/parallel_io.h"
 #include "avrlib/serial.h"
@@ -38,7 +39,7 @@ using avrlib::SerialPort0;
 typedef SerialPort0 MidiPort;
 
 static const uint8_t SPI_Speed = 2;
-typedef SpiMaster<Gpio<PortD, 6>, MSB_FIRST, SPI_Speed> spi_master;
+typedef SpiMasterBase<MSB_FIRST, SPI_Speed> spi_master;
 
 //static const uint8_t DAC_GAIN = 1;
 //Dac<spi_master, UNBUFFERED_REFERENCE, DAC_GAIN> dac;
@@ -47,7 +48,12 @@ typedef Gpio<PortD, 7> DisplayDataControl;
 typedef Gpio<PortD, 6> DisplaySlaveSelect;
 typedef Gpio<PortD, 5> DisplayReset;
 
-SSD1306<128, 64, spi_master, DisplayDataControl , DisplayReset > Display;
+SSD1306<128, 64, spi_master, DisplaySlaveSelect, DisplayDataControl , DisplayReset > Display;
+
+typedef Gpio<PortD, 4> ExtenderSlaveSelect;
+typedef MCP23S17<spi_master, ExtenderSlaveSelect, 7> portExtender1;
+
+PortPin<portExtender1, PORT_B, 5> testOut;
 
 
 typedef Gpio<PortC, 6> Debug1;

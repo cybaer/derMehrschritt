@@ -62,6 +62,14 @@ int main(void)
   Display.write('D');Display.write('2');Display.write('#');
   Display.write('D');Display.write('2');Display.write('#');
   Display.write('D');Display.write('2');Display.write('#');
+
+  _delay_ms(50);
+  testOut.set_mode(DIGITAL_OUTPUT);
+  portExtender1::Init();
+  _delay_ms(50);
+  testOut.set();
+  portExtender1::WriteIO();
+
   while(1)
   {
     /*if (midi_io.readable())
@@ -77,9 +85,12 @@ int main(void)
     Debug1::High();
     if(x > 127) {x = 1; y=1;}
     Display.drawPixel(x+=2,y++,1);
-    Display.display();
+    //Display.display();
 
     //if(y > 60) Display.clear();
     Debug1::Low();
+
+    testOut.toggle();
+    portExtender1::WriteIO();
   }
 }
