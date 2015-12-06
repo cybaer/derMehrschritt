@@ -12,6 +12,7 @@
 //#include "avrlib/gpio.h"
 //#include "avrlib/serial.h"
 //
+#include "avrlib/devices/bicolor_led_group.h"
 #include "HardwareConfig.h"
 #include "lib/midi/midi.h"
 #include "MidiHandler.h"
@@ -27,6 +28,7 @@ using namespace midi;
 // Midi input.
 Serial<MidiPort, 31250, POLLED, POLLED> midi_io;
 MidiStreamParser<MidiHandler> midiParser;
+LEDGroup LedRow_1(&LED_1, &LED_2, &LED_3, &LED_4);
 
 
 
@@ -64,11 +66,30 @@ int main(void)
   Display.write('D');Display.write('2');Display.write('#');
 
   _delay_ms(50);
-  testOut.set_mode(DIGITAL_OUTPUT);
-  portExtender1::Init();
+  LedRow_1.init();
+  SwitchRow_1.init();
+
+  testIn1.set_mode(DIGITAL_INPUT);
+  testIn1.setPullUp();
+
+  testOut3.set_mode(DIGITAL_OUTPUT);
+  testOut4.set_mode(DIGITAL_OUTPUT);
+  portExtenders<AllExtender>::Init();
+
   _delay_ms(50);
-  testOut.set();
-  portExtender1::WriteIO();
+ // testOut1.set();
+ // testOut2.clear();
+  static const bool GREEN = false;
+  static const bool RED = true;
+  LedRow_1.setColor(RED);
+  //LedRow_1.setColor(GREEN, 2);
+  LedRow_1.set();
+
+  testOut3.set();
+  testOut4.clear();
+
+  portExtenders<AllExtender>::WriteIO();
+
 
   while(1)
   {
@@ -81,7 +102,7 @@ int main(void)
         midiParser.PushByte(byte);
       }
     }*/
-    _delay_ms(200);
+    _delay_ms(1);
     Debug1::High();
     if(x > 127) {x = 1; y=1;}
     Display.drawPixel(x+=2,y++,1);
@@ -90,7 +111,18 @@ int main(void)
     //if(y > 60) Display.clear();
     Debug1::Low();
 
-    testOut.toggle();
-    portExtender1::WriteIO();
+    portExtender1::ReadIO();
+    SwitchRow_1.refresh();
+
+    int8_t index = NIL;
+    SwitchRow_1.getPressed(index);
+    LedRow_1.setColor(RED);
+    LedRow_1.set(index);
+
+
+    testOut3.toggle();
+    testOut4.toggle();
+
+    portExtenders<AllExtender>::WriteIO();
   }
 }
