@@ -16,6 +16,7 @@
 #include "HardwareConfig.h"
 #include "lib/midi/midi.h"
 #include "MidiHandler.h"
+#include "ui.h"
 #include <limits.h>
 // __Compiler Bug__
 int __cxa_guard_acquire(__guard *g) {return !*(char *)(g);};
@@ -28,8 +29,17 @@ using namespace midi;
 // Midi input.
 Serial<MidiPort, 31250, POLLED, POLLED> midi_io;
 MidiStreamParser<MidiHandler> midiParser;
-LEDGroup LedRow_1(&LED_1, &LED_2, &LED_3, &LED_4);
 
+ISR(TIMER2_OVF_vect, ISR_NOBLOCK)
+{ //ca 4kHz
+  static int8_t subClock = 0;
+  subClock = (subClock + 1) & 3;
+
+  if (subClock == 0)
+  { // 1kHz
+    Debug1::Toggle();
+  }
+}
 
 
 void setNoteValue(uint8_t note)
@@ -43,6 +53,8 @@ void setNoteValue(uint8_t note)
 
 int main(void)
 {
+  sei();
+
   _delay_ms(50);
   Debug1::set_mode(DIGITAL_OUTPUT);
   Debug1::set_value(false);
@@ -50,45 +62,32 @@ int main(void)
   spi_master::Init();
   //dac.Init();
   //_delay_ms(2000);
-  Display.init();
   _delay_ms(200);
-  Display.drawPixel(12,12,1);
-  Display.display();
 
-  uint8_t x = 0;
-  uint8_t y = 0;
 
-  Display.setTextColor(1, 0);
-  Display.setTextSize(2);
-  Display.write('D');Display.write('2');Display.write('#');
-  Display.write('D');Display.write('2');Display.write('#');
-  Display.write('D');Display.write('2');Display.write('#');
-  Display.write('D');Display.write('2');Display.write('#');
+  ui.init();
 
-  _delay_ms(50);
-  LedRow_1.init();
-  SwitchRow_1.init();
-
-  testIn1.set_mode(DIGITAL_INPUT);
-  testIn1.setPullUp();
-
-  testOut3.set_mode(DIGITAL_OUTPUT);
-  testOut4.set_mode(DIGITAL_OUTPUT);
+  //testOut3.set_mode(DIGITAL_OUTPUT);
+  //testOut4.set_mode(DIGITAL_OUTPUT);
   portExtenders<AllExtender>::Init();
 
   _delay_ms(50);
  // testOut1.set();
  // testOut2.clear();
-  static const bool GREEN = false;
-  static const bool RED = true;
-  LedRow_1.setColor(RED);
-  //LedRow_1.setColor(GREEN, 2);
-  LedRow_1.set();
 
-  testOut3.set();
-  testOut4.clear();
+
 
   portExtenders<AllExtender>::WriteIO();
+
+  // Configure the timers.
+/*    Timer<1>::set_prescaler(1);
+    Timer<1>::set_mode(0, _BV(WGM12), 3);
+    PwmChannel1A::set_frequency(6510);
+    Timer<1>::StartCompare();
+*/
+    Timer<2>::set_prescaler(2);
+    Timer<2>::set_mode(TIMER_PWM_PHASE_CORRECT);
+    Timer<2>::Start();
 
 
   while(1)
@@ -103,25 +102,21 @@ int main(void)
       }
     }*/
     _delay_ms(1);
-    Debug1::High();
-    if(x > 127) {x = 1; y=1;}
-    Display.drawPixel(x+=2,y++,1);
+
+    //if(x > 127) {x = 1; y=1;}
+    //Display.drawPixel(x+=2,y++,1);
     //Display.display();
 
     //if(y > 60) Display.clear();
-    Debug1::Low();
 
-    portExtender1::ReadIO();
-    SwitchRow_1.refresh();
+    portExtenders<AllExtender>::ReadIO();
 
-    int8_t index = NIL;
-    SwitchRow_1.getPressed(index);
-    LedRow_1.setColor(RED);
-    LedRow_1.set(index);
+    ui.poll();
+
+    ui.doEvents();
 
 
-    testOut3.toggle();
-    testOut4.toggle();
+
 
     portExtenders<AllExtender>::WriteIO();
   }

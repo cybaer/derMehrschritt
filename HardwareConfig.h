@@ -54,7 +54,7 @@ typedef Gpio<PortD, 7> DisplayDataControl;
 typedef Gpio<PortD, 6> DisplaySlaveSelect;
 typedef Gpio<PortD, 5> DisplayReset;
 
-SSD1306<128, 64, spi_master, DisplaySlaveSelect, DisplayDataControl , DisplayReset > Display;
+typedef SSD1306<128, 64, spi_master, DisplaySlaveSelect, DisplayDataControl , DisplayReset > Display;
 
 // Port Extender
 typedef Gpio<PortD, 4> ExtenderSlaveSelect;
@@ -101,36 +101,59 @@ typedef Typelist< portExtender1,
         Typelist< portExtender4, NullType> > > > AllExtender;
 
 
+typedef LED<PortPin<portExtender1, PORT_A, 2>, PortPin<portExtender1, PORT_B, 3> > LED_17;
+typedef Switch<portExtender1, PORT_A, 4> Switch_17;
+
+typedef LED<PortPin<portExtender1, PORT_A, 0>, PortPin<portExtender1, PORT_A, 3> > LED_1;
+typedef LED<PortPin<portExtender1, PORT_A, 5>, PortPin<portExtender1, PORT_A, 7> > LED_2;
+typedef LED<PortPin<portExtender1, PORT_B, 0>, PortPin<portExtender1, PORT_B, 2> > LED_3;
+typedef LED<PortPin<portExtender1, PORT_B, 5>, PortPin<portExtender1, PORT_B, 7> > LED_4;
+
+typedef Switch<portExtender1, PORT_A, 1> Switch_1;
+typedef Switch<portExtender1, PORT_A, 6> Switch_2;
+typedef Switch<portExtender1, PORT_B, 1> Switch_3;
+typedef Switch<portExtender1, PORT_B, 6> Switch_4;
 
 
+typedef LED<PortPin<portExtender2, PORT_A, 0>, PortPin<portExtender2, PORT_A, 3> > LED_5;
+typedef LED<PortPin<portExtender2, PORT_A, 5>, PortPin<portExtender2, PORT_A, 7> > LED_6;
+typedef LED<PortPin<portExtender2, PORT_B, 0>, PortPin<portExtender2, PORT_B, 2> > LED_7;
+typedef LED<PortPin<portExtender2, PORT_B, 5>, PortPin<portExtender2, PORT_B, 7> > LED_8;
 
+typedef Switch<portExtender2, PORT_A, 1> Switch_5;
+typedef Switch<portExtender2, PORT_A, 6> Switch_6;
+typedef Switch<portExtender2, PORT_B, 1> Switch_7;
+typedef Switch<portExtender2, PORT_B, 6> Switch_8;
 
-// test pins
-typedef PortPin<portExtender1, PORT_A, 0> LedPin_1;
-typedef PortPin<portExtender1, PORT_A, 3> LedColor_1;
-LED<LedPin_1, LedColor_1> LED_1;
-typedef PortPin<portExtender1, PORT_A, 5> LedPin_2;
-typedef PortPin<portExtender1, PORT_A, 7> LedColor_2;
-LED<LedPin_2, LedColor_2> LED_2;
-typedef PortPin<portExtender1, PORT_B, 0> LedPin_3;
-typedef PortPin<portExtender1, PORT_B, 2> LedColor_3;
-LED<LedPin_3, LedColor_3> LED_3;
-typedef PortPin<portExtender1, PORT_B, 5> LedPin_4;
-typedef PortPin<portExtender1, PORT_B, 7> LedColor_4;
-LED<LedPin_4, LedColor_4> LED_4;
+typedef LED<PortPin<portExtender3, PORT_A, 0>, PortPin<portExtender3, PORT_A, 3> > LED_9;
+typedef LED<PortPin<portExtender3, PORT_A, 5>, PortPin<portExtender3, PORT_A, 7> > LED_10;
+typedef LED<PortPin<portExtender3, PORT_B, 0>, PortPin<portExtender3, PORT_B, 2> > LED_11;
+typedef LED<PortPin<portExtender3, PORT_B, 5>, PortPin<portExtender3, PORT_B, 7> > LED_12;
 
+typedef Switch<portExtender3, PORT_A, 1> Switch_9;
+typedef Switch<portExtender3, PORT_A, 6> Switch_10;
+typedef Switch<portExtender3, PORT_B, 1> Switch_11;
+typedef Switch<portExtender3, PORT_B, 6> Switch_12;
 
-Switch<portExtender1, PORT_A, 1> Switch_1;
-Switch<portExtender1, PORT_A, 6> Switch_2;
-Switch<portExtender1, PORT_B, 1> Switch_3;
-Switch<portExtender1, PORT_B, 6> Switch_4;
+typedef LED<PortPin<portExtender4, PORT_A, 0>, PortPin<portExtender4, PORT_A, 3> > LED_13;
+typedef LED<PortPin<portExtender4, PORT_A, 5>, PortPin<portExtender4, PORT_A, 7> > LED_14;
+typedef LED<PortPin<portExtender4, PORT_B, 0>, PortPin<portExtender4, PORT_B, 2> > LED_15;
+typedef LED<PortPin<portExtender4, PORT_B, 5>, PortPin<portExtender4, PORT_B, 7> > LED_16;
 
-SwitchGroup SwitchRow_1(&Switch_1, &Switch_2, &Switch_3, &Switch_4);
+typedef Switch<portExtender4, PORT_A, 1> Switch_13;
+typedef Switch<portExtender4, PORT_A, 6> Switch_14;
+typedef Switch<portExtender4, PORT_B, 1> Switch_15;
+typedef Switch<portExtender4, PORT_B, 6> Switch_16;
 
-PortPin<portExtender3, PORT_B, 5> testOut3;
-PortPin<portExtender4, PORT_B, 5> testOut4;
+typedef LEDGroup <LED_1, LED_2, LED_3, LED_4> LedRow_1;
+typedef LEDGroup <LED_5, LED_6, LED_7, LED_8> LedRow_2;
+typedef LEDGroup <LED_9, LED_10, LED_11, LED_12> LedRow_3;
+typedef LEDGroup <LED_13, LED_14, LED_15, LED_16> LedRow_4;
 
-PortPin<portExtender1, PORT_B, 6> testIn1;
+typedef SwitchGroup <Switch_1, Switch_2, Switch_3, Switch_4> SwitchRow_1;
+typedef SwitchGroup <Switch_5, Switch_6, Switch_7, Switch_8> SwitchRow_2;
+typedef SwitchGroup <Switch_9, Switch_10, Switch_11, Switch_12> SwitchRow_3;
+typedef SwitchGroup <Switch_13, Switch_14, Switch_15, Switch_16> SwitchRow_4;
 
 // Debug Pin
 typedef Gpio<PortC, 6> Debug1;
