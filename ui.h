@@ -8,6 +8,7 @@
 #include "HardwareConfig.h"
 
 using namespace avrlib;
+class App;
 
 class Ui
 {
@@ -16,12 +17,7 @@ public:
   void init(void);
   void poll(void);
   void doEvents(void);
-
-private:
-  void testSwitchLED(void);
-  bool isScanMode(void);
-
-  class IUiState;
+  void OnClock(void);
 
   LedRow_1 m_LedRow_1;
   LedRow_2 m_LedRow_2;
@@ -40,15 +36,10 @@ private:
 
   Display m_Display;
 
-
-  /*
-  LEDArray m_InputLEDs;
-  SwitchArray m_InputSwitches;
-  LEDArray m_OutputLEDs;
-  SwitchArray m_OutputSwitches;
-  LEDArray m_ModeLEDs;
-  SwitchArray m_ModeSwitches;
-*/
+private:
+  void testSwitchLED(void);
+  bool isScanMode(void);
+  App* m_App;
 
   class IUiState
   {
@@ -89,5 +80,5 @@ private:
   IUiState* m_State;
 };
 
-static Ui ui;
+extern Ui ui;
 

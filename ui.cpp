@@ -6,11 +6,14 @@
  */
 
 #include "ui.h"
+#include "appHWTest.h"
 
 static const bool GREEN = false;
 static const bool RED = true;
 Ui::Ui(void)
 {
+  m_App = &HWTest;
+
   m_LedRows[0] = &m_LedRow_1;
   m_LedRows[1] = &m_LedRow_2;
   m_LedRows[2] = &m_LedRow_3;
@@ -66,7 +69,18 @@ void Ui::doEvents(void)
   for(int8_t i=0; i<4; i++)
   {
     int8_t index = NIL;
-    m_SwitchRows[i]->isActive(index);
-    m_LedRows[i]->set(index);
+    if(m_SwitchRows[i]->getPressed(index))
+    {
+      m_App->OnClickSwitch(i, index);
+    }
+    //m_SwitchRows[i]->isActive(index);
+    //m_LedRows[i]->set(index);
   }
 }
+
+void Ui::  OnClock(void)
+{
+  m_App->OnClock();
+}
+
+Ui ui;

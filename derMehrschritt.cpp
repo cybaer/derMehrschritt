@@ -30,14 +30,18 @@ using namespace midi;
 Serial<MidiPort, 31250, POLLED, POLLED> midi_io;
 MidiStreamParser<MidiHandler> midiParser;
 
+volatile bool poll = false;
+
 ISR(TIMER2_OVF_vect, ISR_NOBLOCK)
 { //ca 4kHz
+ui.OnClock();
   static int8_t subClock = 0;
   subClock = (subClock + 1) & 3;
 
   if (subClock == 0)
   { // 1kHz
-    Debug1::Toggle();
+    //Debug1::Toggle();
+    poll = true;
   }
 }
 
@@ -101,7 +105,7 @@ int main(void)
         midiParser.PushByte(byte);
       }
     }*/
-    _delay_ms(1);
+    //_delay_ms(1);
 
     //if(x > 127) {x = 1; y=1;}
     //Display.drawPixel(x+=2,y++,1);
@@ -109,15 +113,20 @@ int main(void)
 
     //if(y > 60) Display.clear();
 
+    if(poll)
+    {
+      poll = false;
+    Debug1::Low();
     portExtenders<AllExtender>::ReadIO();
-
+    //Debug1::Low();
     ui.poll();
 
     ui.doEvents();
 
-
-
-
     portExtenders<AllExtender>::WriteIO();
+    }
+
+
+
   }
 }
