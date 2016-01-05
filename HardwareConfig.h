@@ -16,6 +16,7 @@
 #include "avrlib/devices/mcp23s17.h"
 #include "avrlib/devices/bicolor_led_group.h"
 #include "avrlib/devices/switch_group.h"
+#include "avrlib/devices/rotary_encoder.h"
 #include "typelistDef.h"
 
 //#include "avrlib/parallel_io.h"
@@ -154,6 +155,13 @@ typedef SwitchGroup <Switch_1, Switch_2, Switch_3, Switch_4> SwitchRow_1;
 typedef SwitchGroup <Switch_5, Switch_6, Switch_7, Switch_8> SwitchRow_2;
 typedef SwitchGroup <Switch_9, Switch_10, Switch_11, Switch_12> SwitchRow_3;
 typedef SwitchGroup <Switch_13, Switch_14, Switch_15, Switch_16> SwitchRow_4;
+
+// Rotary Encoder
+typedef Gpio<PortC, 0> RE_Click;
+typedef Gpio<PortC, 1> RE_SwitchA;
+typedef Gpio<PortC, 2> RE_SwitchB;
+
+typedef RotaryEncoder<RE_SwitchA, RE_SwitchB, RE_Click> Encoder;
 
 // Debug Pin
 typedef Gpio<PortC, 6> Debug1;

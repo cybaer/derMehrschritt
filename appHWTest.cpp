@@ -10,6 +10,11 @@
 int8_t Row = NIL;
 int8_t Index = NIL;
 
+AppHWTest::AppHWTest(void)
+: m_Counter(0)
+{}
+
+
 void AppHWTest::OnClock(void)
 {
   static const int16_t CLOCK = 2001;
@@ -19,11 +24,28 @@ void AppHWTest::OnClock(void)
   clock++;
   if(clock == CLOCK)
   {
-    Debug1::High();
+    //Debug1::High();
     clock = 0;
     ui.m_LedRows[Row]->toggle(Index);
 
   }
+}
+
+void AppHWTest::OnXcrement(int8_t xcrement)
+{
+  m_Counter += xcrement;
+  ui.m_Display.setCursor(100,36);
+  ui.m_Display.write(m_Counter+48);
+}
+
+void AppHWTest::OnClick(void)
+{
+  //ui.m_Display.invertDisplay();
+}
+
+void AppHWTest::OnLongClick(void)
+{
+  ui.m_Display.clear();
 }
 
 void AppHWTest::OnClickSwitch(int8_t row, int8_t index)

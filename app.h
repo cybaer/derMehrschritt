@@ -22,7 +22,8 @@ public:
   virtual void OnNoteOn(uint8_t channel, uint8_t note, uint8_t velocity) {};
   virtual void OnNoteOff(uint8_t channel, uint8_t note, uint8_t velocity) {};
   // UI
-  virtual void OnClick(int8_t ) {};
+  virtual void OnClick() {};
+  virtual void OnLongClick() {};
   virtual void OnXcrement(int8_t) {};
   virtual void OnClickSwitch(int8_t row, int8_t index) {};
   virtual void OnLongClickSwitch(int8_t row, int8_t index) {};

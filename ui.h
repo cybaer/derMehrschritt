@@ -35,10 +35,14 @@ public:
   SwitchGroupBase* m_SwitchRows[4];
 
   Display m_Display;
+  Encoder m_Encoder;
 
 private:
   void testSwitchLED(void);
   bool isScanMode(void);
+
+  int8_t m_Xcrement;
+  int16_t m_Encoder_hold_time;
   App* m_App;
 
   class IUiState

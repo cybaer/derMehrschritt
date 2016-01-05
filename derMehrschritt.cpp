@@ -45,7 +45,6 @@ ui.OnClock();
   }
 }
 
-
 void setNoteValue(uint8_t note)
 {
   uint16_t volts = note;
@@ -61,26 +60,17 @@ int main(void)
 
   _delay_ms(50);
   Debug1::set_mode(DIGITAL_OUTPUT);
-  Debug1::set_value(false);
+  Debug1::set_value(true);
   midi_io.Init();
   spi_master::Init();
+
   //dac.Init();
-  //_delay_ms(2000);
   _delay_ms(200);
 
-
   ui.init();
-
-  //testOut3.set_mode(DIGITAL_OUTPUT);
-  //testOut4.set_mode(DIGITAL_OUTPUT);
   portExtenders<AllExtender>::Init();
 
   _delay_ms(50);
- // testOut1.set();
- // testOut2.clear();
-
-
-
   portExtenders<AllExtender>::WriteIO();
 
   // Configure the timers.
@@ -93,40 +83,32 @@ int main(void)
     Timer<2>::set_mode(TIMER_PWM_PHASE_CORRECT);
     Timer<2>::Start();
 
+    Debug1::Low();
 
   while(1)
   {
-    /*if (midi_io.readable())
+    if (midi_io.readable())
     {
       uint8_t byte = midi_io.ImmediateRead();
       if (byte != 0xfe)
       {
-        Debug1::High();
         midiParser.PushByte(byte);
       }
-    }*/
-    //_delay_ms(1);
-
-    //if(x > 127) {x = 1; y=1;}
-    //Display.drawPixel(x+=2,y++,1);
-    //Display.display();
-
-    //if(y > 60) Display.clear();
+      midi_io.Write(byte);
+    }
 
     if(poll)
     {
       poll = false;
-    Debug1::Low();
-    portExtenders<AllExtender>::ReadIO();
-    //Debug1::Low();
-    ui.poll();
 
-    ui.doEvents();
+      portExtenders<AllExtender>::ReadIO();
+      ui.poll();
+      ui.doEvents();
+      portExtenders<AllExtender>::WriteIO();
 
-    portExtenders<AllExtender>::WriteIO();
+      Debug1::High();
+      ui.m_Display.updatePageByPage();
+      Debug1::Low();
     }
-
-
-
   }
 }
