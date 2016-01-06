@@ -11,7 +11,8 @@ int8_t Row = NIL;
 int8_t Index = NIL;
 
 AppHWTest::AppHWTest(void)
-: m_Counter(0)
+: m_Counter1(0)
+, m_Counter2(0)
 {}
 
 
@@ -33,9 +34,18 @@ void AppHWTest::OnClock(void)
 
 void AppHWTest::OnXcrement(int8_t xcrement)
 {
-  m_Counter += xcrement;
+  if(ui.m_SwitchRows[Row]->isActive(Index))
+  {
+    m_Counter2 += xcrement;
+    ui.m_Display.setCursor(100,46);
+    ui.m_Display.write(m_Counter2+48);
+  }
+  else
+  {
+  m_Counter1 += xcrement;
   ui.m_Display.setCursor(100,36);
-  ui.m_Display.write(m_Counter+48);
+  ui.m_Display.write(m_Counter1+48);
+  }
 }
 
 void AppHWTest::OnClick(void)

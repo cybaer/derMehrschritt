@@ -18,7 +18,8 @@ public:
   virtual void OnClickSwitch(int8_t row, int8_t index);
   virtual void OnLongClickSwitch(int8_t row, int8_t index);
 private:
-  int8_t m_Counter;
+  int8_t m_Counter1;
+  int8_t m_Counter2;
 
 };
 
