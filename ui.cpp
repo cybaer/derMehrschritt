@@ -50,9 +50,23 @@ void Ui::init()
 */
 
   m_Display.init();
-    m_Display.setTextColor(WHITE, BLACK);
-  m_Display.write('A');
-  m_Display.drawPixel(12,12,1);
+  m_Display.setTextColor(WHITE, BLACK);
+  m_Display.write('d');
+  m_Display.write('e');
+  m_Display.write('r');
+  m_Display.write(' ');
+  m_Display.write('M');
+  m_Display.write('e');
+  m_Display.write('h');
+  m_Display.write('r');
+  m_Display.write('s');
+  m_Display.write('c');
+  m_Display.write('h');
+  m_Display.write('r');
+  m_Display.write('i');
+  m_Display.write('t');
+  m_Display.write('t');
+  m_Display.drawFastHLine(0, 9, 128,WHITE);
   m_Display.display();
 
   m_Encoder.Init();
@@ -91,12 +105,7 @@ void Ui::doEvents(void)
     //m_SwitchRows[i]->isActive(index);
     //m_LedRows[i]->set(index);
    }
-  if(idx != NIL)
-  {
-  m_Display.setCursor(12,12);
-  m_Display.write(row+48);
-  m_Display.write(idx+48);
-  }
+
 
   if(m_Xcrement != 0)
   {

@@ -19,7 +19,8 @@ public:
   virtual void OnLongClickSwitch(int8_t row, int8_t index);
 private:
   int8_t m_Counter1;
-  int8_t m_Counter2;
+  static const int8_t Count = 16;
+  int8_t m_Values[Count];
 
 };
 

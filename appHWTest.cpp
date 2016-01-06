@@ -12,8 +12,10 @@ int8_t Index = NIL;
 
 AppHWTest::AppHWTest(void)
 : m_Counter1(0)
-, m_Counter2(0)
-{}
+{
+  for(int8_t i=0; i<Count; i++)
+    m_Values[i] = 0;
+}
 
 
 void AppHWTest::OnClock(void)
@@ -36,14 +38,17 @@ void AppHWTest::OnXcrement(int8_t xcrement)
 {
   if(ui.m_SwitchRows[Row]->isActive(Index))
   {
-    m_Counter2 += xcrement;
-    ui.m_Display.setCursor(100,46);
-    ui.m_Display.write(m_Counter2+48);
+    m_Values[Row*4+Index] += xcrement;
+    ui.m_Display.setCursor((Index+1)*25,(Row+1)*12);
+    ui.m_Display.write(m_Values[Row*4+Index]+48);
   }
   else
   {
-  m_Counter1 += xcrement;
-  ui.m_Display.setCursor(100,36);
+    m_Counter1 += xcrement;
+    ui.m_Display.fillRect(0, 59,128, 4,BLACK);
+    ui.m_Display.drawRect(0, 59,128, 4,WHITE);
+  ui.m_Display.fillRect(m_Counter1*32, 60,32, 2,WHITE);
+  ui.m_Display.setCursor(120,0);
   ui.m_Display.write(m_Counter1+48);
   }
 }
@@ -63,6 +68,10 @@ void AppHWTest::OnClickSwitch(int8_t row, int8_t index)
   Row = row;
   Index = index;
   ui.m_LedRows[row]->set(index);
+  ui.m_Display.setCursor(100, 0);
+  ui.m_Display.write(row+48);
+  ui.m_Display.write(index+48);
+
 }
 
 void AppHWTest::OnLongClickSwitch(int8_t row, int8_t index)
