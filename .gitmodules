@@ -1,0 +1,9 @@
+[submodule "avrlib"]
+	path = avrlib
+	url = https://github.com/cybaer/avril.git
+[submodule "Adafruit_GFX_Library"]
+	path = Adafruit_GFX_Library
+	url = https://github.com/cybaer/Adafruit-GFX-Library.git
+[submodule "lib"]
+	path = lib
+	url = https://github.com/cybaer/lib.git
