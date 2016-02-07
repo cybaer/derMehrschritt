@@ -28,10 +28,10 @@ SYSEX_FLAGS    = --page_size=64 --device_id=3
 # -DUSE_SH_SEQUENCER
 EXTRA_DEFINES  = -DDISABLE_DEFAULT_UART_RX_ISR -DUSE_SH_SEQUENCER
 
-LFUSE          = ff
-HFUSE          = d4
-EFUSE          = fd
-LOCK           = 2f
+LFUSE          = cf
+HFUSE          = d9
+EFUSE          = ff
+LOCK           = 00
 
 include avrlib/makefile.mk
 
