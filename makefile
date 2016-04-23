@@ -31,7 +31,7 @@ EXTRA_DEFINES  = -DDISABLE_DEFAULT_UART_RX_ISR -DUSE_SH_SEQUENCER
 LFUSE          = cf
 HFUSE          = d9
 EFUSE          = ff
-LOCK           = 00
+LOCK           = ff
 
 include avrlib/makefile.mk
 
@@ -48,7 +48,7 @@ bake_all: build/derMehrschritt.hex
 		$(AVRDUDE) $(AVRDUDE_COM_OPTS) $(AVRDUDE_ISP_OPTS) -B 1 \
 			-U flash:w:build/derMehrschritt.hex:i \
 #		$(AVRDUDE) $(AVRDUDE_COM_OPTS) $(AVRDUDE_ISP_OPTS) -B 1 \
-			-U lock:w:0x$(LOCK):m
+#			-U lock:w:0x$(LOCK):m
 
 #yes_bake_all: build/midipal/midipal.hex
 #		make -f bootloader/makefile
