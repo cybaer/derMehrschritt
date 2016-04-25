@@ -18,6 +18,7 @@
 #include "MidiHandler.h"
 #include "ui.h"
 #include <limits.h>
+
 // __Compiler Bug__
 int __cxa_guard_acquire(__guard *g) {return !*(char *)(g);};
 void __cxa_guard_release (__guard *g) {*(char *)g = 1;};
@@ -59,6 +60,22 @@ int main(void)
   sei();
 
   _delay_ms(50);
+  Dout::set_mode(DIGITAL_OUTPUT);
+  Dout::set_value(false);
+  Din1::set_mode(DIGITAL_INPUT);
+  Din1::High();
+  Din2::set_mode(DIGITAL_INPUT);
+  Din2::High();
+
+  Trigger1::set_mode(DIGITAL_OUTPUT);
+  Trigger1::set_value(false);
+  Trigger2::set_mode(DIGITAL_OUTPUT);
+  Trigger2::set_value(false);
+  Trigger3::set_mode(DIGITAL_OUTPUT);
+  Trigger3::set_value(false);
+  Trigger4::set_mode(DIGITAL_OUTPUT);
+  Trigger4::set_value(false);
+
   Debug1::set_mode(DIGITAL_OUTPUT);
   Debug1::set_value(true);
   midi_io.Init();

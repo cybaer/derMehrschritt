@@ -17,6 +17,9 @@ public:
   virtual void OnLongClick(void);
   virtual void OnClickSwitch(int8_t row, int8_t index);
   virtual void OnLongClickSwitch(int8_t row, int8_t index);
+  virtual void OnClickSuperSwitch(void);
+  virtual void OnLongClickSuperSwitch(void);
+  virtual void OnReleaseSuperSwitch(void);
 private:
   int8_t m_Counter1;
   static const int8_t Count = 16;

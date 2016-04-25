@@ -26,7 +26,9 @@ Ui::Ui(void)
 }
 void Ui::init()
 {
-  //led17.init();
+  m_SuperLed.init();
+  m_SuperLed.setColor(RED);
+  m_SuperSwitch.init();
 
   m_LedRow_1.init();
   m_LedRow_2.init();
@@ -79,6 +81,7 @@ void Ui::poll(void)
   m_SwitchRow_2.refresh();
   m_SwitchRow_3.refresh();
   m_SwitchRow_4.refresh();
+  m_SuperSwitch.refresh();
 
   m_Xcrement = m_Encoder.Read();
 
@@ -90,6 +93,13 @@ void Ui::poll(void)
 
 void Ui::doEvents(void)
 {
+  if(m_SuperSwitch.pressed())
+    m_App->OnClickSuperSwitch();
+  if(m_SuperSwitch.released())
+      m_App->OnReleaseSuperSwitch();
+
+
+
   int8_t idx = NIL;
   int8_t row = NIL;
 

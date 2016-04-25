@@ -7,8 +7,30 @@
 
 #include "appHWTest.h"
 #include "ui.h"
+#include "HardwareConfig.h"
+
 int8_t Row = NIL;
 int8_t Index = NIL;
+
+void readDin1AndSetLed13(void)
+{
+  LED_Base& led13 = *ui.m_LedRow_4.m_LedArray[0];
+  led13.set(Din1::value());
+}
+
+void readDin2AndSetLed14(void)
+{
+  LED_Base& led14 = *ui.m_LedRow_4.m_LedArray[1];
+  led14.set(Din2::value());
+}
+
+void setTrigger(void)
+{
+  Trigger1::set_value(ui.m_SwitchRow_1.m_SwArray[3]->active());
+  Trigger2::set_value(ui.m_SwitchRow_2.m_SwArray[3]->active());
+  Trigger3::set_value(ui.m_SwitchRow_3.m_SwArray[3]->active());
+  Trigger4::set_value(ui.m_SwitchRow_4.m_SwArray[3]->active());
+}
 
 AppHWTest::AppHWTest(void)
 : m_Counter1(0)
@@ -20,6 +42,13 @@ AppHWTest::AppHWTest(void)
 
 void AppHWTest::OnClock(void)
 {
+  readDin1AndSetLed13();
+  readDin2AndSetLed14();
+
+  setTrigger();
+
+
+
   static const int16_t CLOCK = 2001;
   static int16_t clock = 0;
 
@@ -77,6 +106,20 @@ void AppHWTest::OnClickSwitch(int8_t row, int8_t index)
 void AppHWTest::OnLongClickSwitch(int8_t row, int8_t index)
 {
 
+}
+void AppHWTest::OnClickSuperSwitch(void)
+{
+  ui.m_SuperLed.set();
+  Dout::set_value(true);
+}
+void AppHWTest::OnLongClickSuperSwitch(void)
+{
+
+}
+void AppHWTest::OnReleaseSuperSwitch(void)
+{
+  ui.m_SuperLed.clear();
+  Dout::set_value(false);
 }
 
 AppHWTest HWTest;

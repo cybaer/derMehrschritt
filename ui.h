@@ -25,7 +25,7 @@ public:
   LedRow_4 m_LedRow_4;
   LEDGroupBase* m_LedRows[4];
 
-  LED_17  led17;
+  LED_17  m_SuperLed;
   //LED_16  led16;
 
   SwitchRow_1 m_SwitchRow_1;
@@ -33,6 +33,8 @@ public:
   SwitchRow_3 m_SwitchRow_3;
   SwitchRow_4 m_SwitchRow_4;
   SwitchGroupBase* m_SwitchRows[4];
+
+  SWITCH_17 m_SuperSwitch;
 
   Display m_Display;
   Encoder m_Encoder;

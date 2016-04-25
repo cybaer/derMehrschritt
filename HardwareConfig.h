@@ -103,7 +103,7 @@ typedef Typelist< portExtender1,
 
 
 typedef LED<PortPin<portExtender1, PORT_A, 2>, PortPin<portExtender1, PORT_B, 3> > LED_17;
-typedef Switch<portExtender1, PORT_A, 4> Switch_17;
+typedef Switch<portExtender1, PORT_A, 4> SWITCH_17;
 
 typedef LED<PortPin<portExtender1, PORT_A, 0>, PortPin<portExtender1, PORT_A, 3> > LED_1;
 typedef LED<PortPin<portExtender1, PORT_A, 5>, PortPin<portExtender1, PORT_A, 7> > LED_2;
@@ -162,6 +162,16 @@ typedef Gpio<PortC, 1> RE_SwitchA;
 typedef Gpio<PortC, 2> RE_SwitchB;
 
 typedef RotaryEncoder<RE_SwitchA, RE_SwitchB, RE_Click> Encoder;
+
+// Digital in / out
+typedef Gpio<PortB, 3> Din1;
+typedef Gpio<PortA, 7> Din2;
+typedef Gpio<PortA, 4> Dout;
+
+typedef Gpio<PortA, 0> Trigger1;
+typedef Gpio<PortA, 1> Trigger2;
+typedef Gpio<PortA, 2> Trigger3;
+typedef Gpio<PortA, 3> Trigger4;
 
 // Debug Pin
 typedef Gpio<PortC, 6> Debug1;
