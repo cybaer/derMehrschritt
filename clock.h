@@ -8,6 +8,8 @@
 #ifndef CLOCK_H_
 #define CLOCK_H_
 
+#include "avrlib/base.h"
+
 class Clock
 {
 public:
@@ -19,13 +21,21 @@ public:
   }
   static inline void start(void)
   {
-
+    m_TickCount = 0;
+    m_StepCount = 0;
+    m_Running = true;
   }
-  static inline void stop(void);
+  static inline void stop(void) { m_Running = false; }
   static inline void reset(void);
-  static inline int16_t Tick();
+  static inline bool running(void) { return m_Running; }
+  static inline int16_t Tick()
+  {
+    m_TickCount++;
+    // calc m_StepCount
+    return m_Interval;
+  }
 
-  //static void update(); // setzt m_Intervals
+  void update(uint16_t bpm, uint8_t multiplier, uint8_t divider/* ,uint8_t groove_template, uint8_t groove_amount*/);
 
 private:
   static bool m_Running;

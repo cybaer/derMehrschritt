@@ -17,6 +17,7 @@
 #include "lib/midi/midi.h"
 #include "MidiHandler.h"
 #include "ui.h"
+#include "clock.h"
 #include <limits.h>
 
 // __Compiler Bug__
@@ -31,11 +32,28 @@ using namespace midi;
 Serial<MidiPort, 31250, POLLED, POLLED> midi_io;
 MidiStreamParser<MidiHandler> midiParser;
 
+
+volatile uint8_t num_clock_ticks = 0;
 volatile bool poll = false;
+
+ISR(TIMER1_COMPA_vect)
+{
+  PwmChannel1A::set_frequency(clock.Tick());
+  if(clock.running())
+  {
+    ++num_clock_ticks;
+  }
+}
+
 
 ISR(TIMER2_OVF_vect, ISR_NOBLOCK)
 { //ca 4kHz
-ui.OnClock();
+
+  while (num_clock_ticks)
+  {
+    --num_clock_ticks;
+    ui.OnClock(); // reicht Clock an die App weiter
+  }
   static int8_t subClock = 0;
   subClock = (subClock + 1) & 3;
 
@@ -91,14 +109,14 @@ int main(void)
   portExtenders<AllExtender>::WriteIO();
 
   // Configure the timers.
-/*    Timer<1>::set_prescaler(1);
-    Timer<1>::set_mode(0, _BV(WGM12), 3);
-    PwmChannel1A::set_frequency(6510);
-    Timer<1>::StartCompare();
-*/
-    Timer<2>::set_prescaler(2);
-    Timer<2>::set_mode(TIMER_PWM_PHASE_CORRECT);
-    Timer<2>::Start();
+  Timer<1>::set_prescaler(1);
+  Timer<1>::set_mode(0, _BV(WGM12), 3);
+  PwmChannel1A::set_frequency(6510); //ToDo: magic number 6510
+  Timer<1>::StartCompare();
+
+  Timer<2>::set_prescaler(2);
+  Timer<2>::set_mode(TIMER_PWM_PHASE_CORRECT);
+  Timer<2>::Start();
 
     Debug1::Low();
 
