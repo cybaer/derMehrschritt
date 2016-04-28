@@ -38,10 +38,13 @@ volatile bool poll = false;
 
 ISR(TIMER1_COMPA_vect)
 {
-  PwmChannel1A::set_frequency(clock.Tick());
+  PwmChannel1A::set_frequency(/*62500/48*/clock.Tick());
+  Debug1::Toggle();
+++num_clock_ticks;
   if(clock.running())
   {
-    ++num_clock_ticks;
+
+
   }
 }
 
@@ -53,6 +56,7 @@ ISR(TIMER2_OVF_vect, ISR_NOBLOCK)
   {
     --num_clock_ticks;
     ui.OnClock(); // reicht Clock an die App weiter
+    //Debug1::Toggle();
   }
   static int8_t subClock = 0;
   subClock = (subClock + 1) & 3;
@@ -114,6 +118,8 @@ int main(void)
   PwmChannel1A::set_frequency(6510); //ToDo: magic number 6510
   Timer<1>::StartCompare();
 
+  //     16MHz / (8 * 510) = 3906,25 Hz
+  // prescaler(2)_|
   Timer<2>::set_prescaler(2);
   Timer<2>::set_mode(TIMER_PWM_PHASE_CORRECT);
   Timer<2>::Start();
@@ -141,9 +147,9 @@ int main(void)
       ui.doEvents();
       portExtenders<AllExtender>::WriteIO();
 
-      Debug1::High();
+      //Debug1::High();
       ui.m_Display.updatePageByPage();
-      Debug1::Low();
+      //Debug1::Low();
     }
   }
 }

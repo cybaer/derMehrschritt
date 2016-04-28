@@ -21,7 +21,7 @@ public:
   virtual void OnLongClickSuperSwitch(void);
   virtual void OnReleaseSuperSwitch(void);
 private:
-  int8_t m_Counter1;
+  uint16_t m_Counter1;
   static const int8_t Count = 16;
   int8_t m_Values[Count];
 

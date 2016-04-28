@@ -8,6 +8,7 @@
 #include "appHWTest.h"
 #include "ui.h"
 #include "HardwareConfig.h"
+#include "clock.h"
 
 int8_t Row = NIL;
 int8_t Index = NIL;
@@ -49,15 +50,15 @@ void AppHWTest::OnClock(void)
 
 
 
-  static const int16_t CLOCK = 2001;
-  static int16_t clock = 0;
+  static const int16_t _CLOCK = 96;  //2001
+  static int16_t _clock = 0;
 
 
-  clock++;
-  if(clock == CLOCK)
+  _clock++;
+  if(_clock == _CLOCK)
   {
     //Debug1::High();
-    clock = 0;
+    _clock = 0;
     ui.m_LedRows[Row]->toggle(Index);
 
   }
@@ -74,6 +75,9 @@ void AppHWTest::OnXcrement(int8_t xcrement)
   else
   {
     m_Counter1 += xcrement;
+
+    clock.update(m_Counter1, 1, 1);
+
     ui.m_Display.fillRect(0, 59,128, 4,BLACK);
     ui.m_Display.drawRect(0, 59,128, 4,WHITE);
   ui.m_Display.fillRect(m_Counter1*32, 60,32, 2,WHITE);

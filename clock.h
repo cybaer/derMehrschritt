@@ -17,7 +17,7 @@ public:
   {
     m_TickCount = 0;
     m_StepCount = 0;
-    m_Running = false;
+    m_Running = true;
   }
   static inline void start(void)
   {
