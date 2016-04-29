@@ -38,7 +38,7 @@ volatile bool poll = false;
 
 ISR(TIMER1_COMPA_vect)
 {
-  PwmChannel1A::set_frequency(/*62500/48*/clock.Tick());
+  PwmChannel1A::set_frequency(62500/6/*clock.Tick()*/);
   Debug1::Toggle();
 ++num_clock_ticks;
   if(clock.running())

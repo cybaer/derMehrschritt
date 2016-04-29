@@ -40,6 +40,10 @@ AppHWTest::AppHWTest(void)
     m_Values[i] = 0;
 }
 
+void AppHWTest::OnInit(void)
+{
+  clock.update(60, 1,1);
+}
 
 void AppHWTest::OnClock(void)
 {
@@ -50,7 +54,7 @@ void AppHWTest::OnClock(void)
 
 
 
-  static const int16_t _CLOCK = 96;  //2001
+  static const int16_t _CLOCK = 12;  //2001
   static int16_t _clock = 0;
 
 

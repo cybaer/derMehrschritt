@@ -15,7 +15,7 @@ class App
 public:
   App() {}
   virtual void OnInit(void) {};
-  virtual void OnClock(void) {};
+  virtual void OnClock(void) {};  // Aufruf zu jedem ppqn (norm. 24 mal pro 4tel Note)
   virtual void OnStart(void) {};
   virtual void OnStop(void) {};
   // Midi

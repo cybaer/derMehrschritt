@@ -72,6 +72,7 @@ void Ui::init()
   m_Display.display();
 
   m_Encoder.Init();
+  m_App->OnInit();
 
 }
 

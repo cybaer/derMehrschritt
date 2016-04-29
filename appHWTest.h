@@ -11,6 +11,7 @@ class AppHWTest : public App
 {
 public:
   AppHWTest(void);
+  virtual void OnInit(void);
   virtual void OnClock(void);
   virtual void OnXcrement(int8_t xcrement);
   virtual void OnClick(void);
