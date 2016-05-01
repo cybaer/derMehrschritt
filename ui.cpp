@@ -7,12 +7,14 @@
 
 #include "ui.h"
 #include "appHWTest.h"
+#include "appTriggerSeq.h"
 
 static const bool GREEN = false;
 static const bool RED = true;
 Ui::Ui(void)
 {
   m_App = &HWTest;
+  //m_App = &TriggerSeq;
 
   m_LedRows[0] = &m_LedRow_1;
   m_LedRows[1] = &m_LedRow_2;

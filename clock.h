@@ -35,7 +35,7 @@ public:
     return m_Interval;
   }
 
-  void update(uint16_t bpm, uint8_t multiplier, uint8_t divider/* ,uint8_t groove_template, uint8_t groove_amount*/);
+  void update(uint16_t bpm, uint8_t multiplier = 1, uint8_t divider = 1/* ,uint8_t groove_template, uint8_t groove_amount*/);
 
 private:
   static bool m_Running;

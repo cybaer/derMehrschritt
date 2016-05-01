@@ -5,6 +5,9 @@
  *      Author: cybaer
  */
 
+#ifndef UI_H_
+#define UI_H_
+
 #include "HardwareConfig.h"
 
 using namespace avrlib;
@@ -87,4 +90,4 @@ private:
 };
 
 extern Ui ui;
-
+#endif

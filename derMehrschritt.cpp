@@ -38,12 +38,12 @@ volatile bool poll = false;
 
 ISR(TIMER1_COMPA_vect)
 {
-  PwmChannel1A::set_frequency(62500/6/*clock.Tick()*/);
+  PwmChannel1A::set_frequency(clock.Tick());
   Debug1::Toggle();
-++num_clock_ticks;
+
   if(clock.running())
   {
-
+    ++num_clock_ticks;
 
   }
 }
@@ -107,6 +107,7 @@ int main(void)
   _delay_ms(200);
 
   ui.init();
+  clock.init();
   portExtenders<AllExtender>::Init();
 
   _delay_ms(50);
