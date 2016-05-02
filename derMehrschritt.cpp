@@ -38,9 +38,9 @@ volatile bool poll = false;
 
 ISR(TIMER1_COMPA_vect)
 {
-  PwmChannel1A::set_frequency(clock.Tick());
-  Debug1::Toggle();
+ // PwmChannel1A::set_frequency(625000L/120/*clock.Tick()*/);
 
+  //Debug1::Toggle();
   if(clock.running())
   {
     ++num_clock_ticks;
@@ -116,7 +116,7 @@ int main(void)
   // Configure the timers.
   Timer<1>::set_prescaler(1);
   Timer<1>::set_mode(0, _BV(WGM12), 3);
-  PwmChannel1A::set_frequency(6510); //ToDo: magic number 6510
+  PwmChannel1A::set_frequency(625000L/120); //ToDo: magic number 6510
   Timer<1>::StartCompare();
 
   //     16MHz / (8 * 510) = 3906,25 Hz
@@ -146,6 +146,7 @@ int main(void)
       portExtenders<AllExtender>::ReadIO();
       ui.poll();
       ui.doEvents();
+
       portExtenders<AllExtender>::WriteIO();
 
       //Debug1::High();

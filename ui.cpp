@@ -13,8 +13,8 @@ static const bool GREEN = false;
 static const bool RED = true;
 Ui::Ui(void)
 {
-  m_App = &HWTest;
-  //m_App = &TriggerSeq;
+  //m_App = &HWTest;
+  m_App = &TriggerSeq;
 
   m_LedRows[0] = &m_LedRow_1;
   m_LedRows[1] = &m_LedRow_2;
@@ -111,6 +111,7 @@ void Ui::doEvents(void)
     int8_t index = NIL;
     if(m_SwitchRows[i]->getPressed(index))
     {
+      //m_SuperLed.toggle();
       m_App->OnClickSwitch(i, index);
       row = i;
       idx = index;
@@ -142,8 +143,9 @@ void Ui::doEvents(void)
   }
 }
 
-void Ui::  OnClock(void)
+void Ui::OnClock(void)
 {
+
   m_App->OnClock();
 }
 

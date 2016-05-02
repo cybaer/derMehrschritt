@@ -18,13 +18,17 @@ public:
   TriggerSequencer(void)
   : m_ClockCount(0)
   , m_TracksCount(4)
-  , m_Running(false)
+  , m_Running(true)
   , m_PPQN(24)
   {
-    m_Tracks[0].m_Steps = 0x11111111;
-    m_Tracks[1].m_Steps = 0x44444444;
-    m_Tracks[2].m_Steps = 0xAAAAAAAA;
-    m_Tracks[3].m_Steps = 0x00000000;
+    m_Tracks[0] = &m_Track1;
+    m_Tracks[1] = &m_Track2;
+    m_Tracks[2] = &m_Track3;
+    m_Tracks[3] = &m_Track4;
+    m_Tracks[0]->m_Steps = 0x11111111;
+    m_Tracks[1]->m_Steps = 0x44444444;
+    m_Tracks[2]->m_Steps = 0xAAAAAAAA;
+    m_Tracks[3]->m_Steps = 0x00000000;
   }
 
   void OnClock(void)
@@ -37,19 +41,24 @@ public:
     }
     for(int8_t i=0; i<m_TracksCount; i++)
     {
-      m_Tracks[i].OnClock(nextStep);
+      m_Tracks[i]->OnClock(nextStep);
     }
   }
   void OnStart(void)
   {
     m_Running = true;
   }
-  void OnStop(void);
+  void OnStop(void)
+  {
+    m_Running = false;
+    OnReset();
+  }
   void OnReset(void)
   {
+    m_ClockCount = 0;
     for(int8_t i=0; i<m_TracksCount; i++)
     {
-      m_Tracks[i].OnReset();
+      m_Tracks[i]->OnReset();
     }
   }
   void toggleStep(uint8_t row, uint8_t step);
@@ -57,15 +66,16 @@ public:
 
 private:
 
-  class Track
+  class TrackBase
   {
   public:
-    Track(void)
+    TrackBase(void)
     : m_Steps(0)
     , m_StepCount(0)
     , m_EndStep(8)
-    , m_GateLen(1)
+    , m_GateLen(4)
     , m_GateTicks(0)
+    , m_NoteActive(false)
     {}
 
     void OnReset(void)
@@ -73,17 +83,17 @@ private:
       m_StepCount = 0;
       m_GateTicks = 0;
     }
-    void OnClock(bool nextStep)
+    virtual void OnClock(bool nextStep)
     {
       if(nextStep)
       {
-        playNextStep();
+        return playNextStep();
       }
       else
       {
         if(m_NoteActive)
         {
-          releaseNote();
+          return releaseNote();
         }
       }
     }
@@ -93,14 +103,18 @@ private:
       {
         m_StepCount = 0;
       }
-      m_NoteActive = true;
+      m_NoteActive = m_Steps & 1<<m_StepCount;
       m_GateTicks = m_GateLen;
       // letzte Note beenden ?
-      // next Note spielen
+      // Midi Note spielen
     }
     void releaseNote(void)
     {
-      //...
+      if(--m_GateTicks == 0)
+      {
+        m_NoteActive = false;
+        // Midi Note beenden
+      }
     }
     uint32_t m_Steps;
     uint8_t m_StepCount;
@@ -110,16 +124,31 @@ private:
     bool m_NoteActive;
   };
 
-  void playStep(void)
+  template<typename Trigger>
+  class Track : public TrackBase
   {
+  public:
+    Track(void) : TrackBase() {}
+    void OnClock(bool nextStep)
+    {
+      TrackBase::OnClock(nextStep);
+      Trigger::set_value(m_NoteActive);
 
-  }
-  uint8_t m_ClockCount;
+
+    }
+
+  };
+
+    uint8_t m_ClockCount;
   uint8_t m_TracksCount;
 
   bool m_Running;
   uint8_t m_PPQN;
-  Track m_Tracks[4];
+  Track<Trigger1> m_Track1;
+  Track<Trigger2> m_Track2;
+  Track<Trigger3> m_Track3;
+  Track<Trigger4> m_Track4;
+  TrackBase* m_Tracks[4];
 };
 
 

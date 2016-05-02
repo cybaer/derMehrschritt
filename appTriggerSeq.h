@@ -20,7 +20,7 @@ public:
   virtual void OnXcrement(int8_t xcrement);
   virtual void OnClick(void);
   //virtual void OnLongClick(void);
-  //virtual void OnClickSwitch(int8_t row, int8_t index);
+  virtual void OnClickSwitch(int8_t row, int8_t index);
   //virtual void OnLongClickSwitch(int8_t row, int8_t index);
   virtual void OnClickSuperSwitch(void);
   //virtual void OnLongClickSuperSwitch(void);
@@ -30,6 +30,7 @@ private:
   void toEditMode(void);
   bool m_EditMode;
   uint16_t m_Bpm;
+  bool m_Started;
 
   TriggerSequencer m_Seq;
 };
