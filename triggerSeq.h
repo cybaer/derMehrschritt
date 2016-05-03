@@ -18,8 +18,12 @@ public:
   TriggerSequencer(void)
   : m_ClockCount(0)
   , m_TracksCount(4)
-  , m_Running(true)
+  , m_Running(false)
   , m_PPQN(24)
+  , m_Track1(ui.m_LedRow_1.led4)
+  , m_Track2(ui.m_LedRow_2.led4)
+  , m_Track3(ui.m_LedRow_3.led4)
+  , m_Track4(ui.m_LedRow_4.led4)
   {
     m_Tracks[0] = &m_Track1;
     m_Tracks[1] = &m_Track2;
@@ -33,6 +37,8 @@ public:
 
   void OnClock(void)
   {
+    if(m_Running)
+    {
     bool nextStep = false;
     if(++m_ClockCount == m_PPQN)
     {
@@ -42,6 +48,7 @@ public:
     for(int8_t i=0; i<m_TracksCount; i++)
     {
       m_Tracks[i]->OnClock(nextStep);
+    }
     }
   }
   void OnStart(void)
@@ -71,7 +78,7 @@ private:
   public:
     TrackBase(void)
     : m_Steps(0)
-    , m_StepCount(0)
+    , m_StepCount(-1)
     , m_EndStep(8)
     , m_GateLen(4)
     , m_GateTicks(0)
@@ -80,7 +87,7 @@ private:
 
     void OnReset(void)
     {
-      m_StepCount = 0;
+      m_StepCount = -1;
       m_GateTicks = 0;
     }
     virtual void OnClock(bool nextStep)
@@ -117,7 +124,7 @@ private:
       }
     }
     uint32_t m_Steps;
-    uint8_t m_StepCount;
+    int8_t m_StepCount;
     uint8_t m_EndStep;
     uint8_t m_GateLen;
     uint8_t m_GateTicks;
@@ -128,15 +135,18 @@ private:
   class Track : public TrackBase
   {
   public:
-    Track(void) : TrackBase() {}
+    Track(LED_Base& Led)
+    : TrackBase()
+    , m_Led(Led)
+    {}
     void OnClock(bool nextStep)
     {
       TrackBase::OnClock(nextStep);
       Trigger::set_value(m_NoteActive);
-
+      m_Led.set(m_NoteActive);
 
     }
-
+    LED_Base& m_Led;
   };
 
     uint8_t m_ClockCount;

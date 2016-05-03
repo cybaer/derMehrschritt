@@ -20,7 +20,7 @@ AppTriggerSeq::AppTriggerSeq(void)
 
 void AppTriggerSeq::OnInit(void)
 {
-  ui.m_SuperLed.set();
+  ui.m_SuperLed.set(false);
   clock.update(m_Bpm);
 }
 void AppTriggerSeq::OnClock(void)
