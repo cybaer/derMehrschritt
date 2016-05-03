@@ -16,10 +16,10 @@ class TriggerSequencer
 {
 public:
   TriggerSequencer(void)
-  : m_ClockCount(0)
+  : m_PPQN(24)
   , m_TracksCount(4)
   , m_Running(false)
-  , m_PPQN(24)
+  , m_ClockCount(m_PPQN)
   , m_Track1(ui.m_LedRow_1.led4)
   , m_Track2(ui.m_LedRow_2.led4)
   , m_Track3(ui.m_LedRow_3.led4)
@@ -39,16 +39,16 @@ public:
   {
     if(m_Running)
     {
-    bool nextStep = false;
-    if(++m_ClockCount == m_PPQN)
-    {
-      m_ClockCount = 0;
-      nextStep = true;
-    }
-    for(int8_t i=0; i<m_TracksCount; i++)
-    {
-      m_Tracks[i]->OnClock(nextStep);
-    }
+      bool nextStep = false;
+      if(++m_ClockCount >= m_PPQN)
+      {
+        m_ClockCount = 0;
+        nextStep = true;
+      }
+      for(int8_t i=0; i<m_TracksCount; i++)
+      {
+        m_Tracks[i]->OnClock(nextStep);
+      }
     }
   }
   void OnStart(void)
@@ -62,7 +62,7 @@ public:
   }
   void OnReset(void)
   {
-    m_ClockCount = 0;
+    m_ClockCount = m_PPQN;
     for(int8_t i=0; i<m_TracksCount; i++)
     {
       m_Tracks[i]->OnReset();
@@ -85,10 +85,11 @@ private:
     , m_NoteActive(false)
     {}
 
-    void OnReset(void)
+    virtual void OnReset(void)
     {
       m_StepCount = -1;
       m_GateTicks = 0;
+      m_NoteActive = false;
     }
     virtual void OnClock(bool nextStep)
     {
@@ -139,21 +140,29 @@ private:
     : TrackBase()
     , m_Led(Led)
     {}
+    virtual void OnReset(void)
+    {
+      TrackBase::OnReset();
+      set(false);
+    }
     void OnClock(bool nextStep)
     {
       TrackBase::OnClock(nextStep);
-      Trigger::set_value(m_NoteActive);
-      m_Led.set(m_NoteActive);
-
+      set(m_NoteActive);
     }
+    void set(bool value)
+    {
+      Trigger::set_value(!value);
+      m_Led.set(value);
+    }
+    // nur zu Testzwecken
     LED_Base& m_Led;
   };
 
-    uint8_t m_ClockCount;
-  uint8_t m_TracksCount;
-
-  bool m_Running;
   uint8_t m_PPQN;
+  uint8_t m_TracksCount;
+  bool m_Running;
+  uint8_t m_ClockCount;
   Track<Trigger1> m_Track1;
   Track<Trigger2> m_Track2;
   Track<Trigger3> m_Track3;

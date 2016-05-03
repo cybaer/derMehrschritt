@@ -15,7 +15,6 @@ AppTriggerSeq::AppTriggerSeq(void)
 , m_Started(false)
 , m_Seq()
 {
-
 }
 
 void AppTriggerSeq::OnInit(void)
@@ -25,7 +24,6 @@ void AppTriggerSeq::OnInit(void)
 }
 void AppTriggerSeq::OnClock(void)
 {
-
   m_Seq.OnClock();
 }
 void AppTriggerSeq::OnXcrement(int8_t xcrement)
@@ -36,7 +34,12 @@ void AppTriggerSeq::OnXcrement(int8_t xcrement)
   }
   else
   {
-
+    if(ui.m_SwitchRow_4.sw3.active())
+    {
+      ui.m_SuperLed.toggle();
+      m_Bpm += xcrement;
+      clock.update(m_Bpm);
+    }
   }
 }
 void AppTriggerSeq::OnClick(void)
@@ -46,8 +49,7 @@ void AppTriggerSeq::OnClick(void)
 //  virtual void OnLongClick(void);
 void AppTriggerSeq::OnClickSwitch(int8_t row, int8_t index)
 {
-  ui.m_SuperLed.toggle();
-
+  // Start/Stopp (Taster13)
   if(row == 3 && index == 0)
   {
     if(m_Started)
@@ -61,7 +63,13 @@ void AppTriggerSeq::OnClickSwitch(int8_t row, int8_t index)
       m_Seq.OnStart();
     }
   }
+  ui.m_LedRow_4.led1.set(m_Started);
 
+  // Reset (Taster14)
+  if(row == 3 && index == 1)
+  {
+    m_Seq.OnReset();
+  }
 }
 //  virtual void OnLongClickSwitch(int8_t row, int8_t index);
 void AppTriggerSeq::OnClickSuperSwitch(void)

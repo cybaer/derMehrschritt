@@ -38,7 +38,7 @@ volatile bool poll = false;
 
 ISR(TIMER1_COMPA_vect)
 {
- // PwmChannel1A::set_frequency(625000L/120/*clock.Tick()*/);
+  PwmChannel1A::set_frequency(clock.Tick());
 
   //Debug1::Toggle();
   if(clock.running())
@@ -90,13 +90,13 @@ int main(void)
   Din2::High();
 
   Trigger1::set_mode(DIGITAL_OUTPUT);
-  Trigger1::set_value(false);
+  Trigger1::set_value(true);
   Trigger2::set_mode(DIGITAL_OUTPUT);
-  Trigger2::set_value(false);
+  Trigger2::set_value(true);
   Trigger3::set_mode(DIGITAL_OUTPUT);
-  Trigger3::set_value(false);
+  Trigger3::set_value(true);
   Trigger4::set_mode(DIGITAL_OUTPUT);
-  Trigger4::set_value(false);
+  Trigger4::set_value(true);
 
   Debug1::set_mode(DIGITAL_OUTPUT);
   Debug1::set_value(true);
