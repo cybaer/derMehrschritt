@@ -83,12 +83,21 @@ void AppTriggerSeq::OnClickSuperSwitch(void)
 void AppTriggerSeq::toRunMode(void)
 {
   m_EditMode = false;
+
   // LEDs umschalten
+  for(int8_t i=0; i<m_Seq.getTracksCount(); i++)
+  {
+    ui.m_LedRows[i]->setWithMask(m_Seq.getSteps(i));
+  }
   //Display...
 }
 void AppTriggerSeq::toEditMode(void)
 {
   m_EditMode = true;
+  for(int8_t i=0; i<4; i++)
+  {
+    ui.m_LedRows[i]->clear();
+  }
 }
 
 AppTriggerSeq TriggerSeq;

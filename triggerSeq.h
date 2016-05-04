@@ -71,7 +71,14 @@ public:
   void toggleStep(uint8_t row, uint8_t step);
   void setPPQN(uint8_t ppqn) { m_PPQN = ppqn; }
 
+  uint8_t getTracksCount(void) const { return m_TracksCount; }
+  uint32_t getSteps(const uint8_t track) const { return track <= m_TracksCount ? m_Tracks[track]->m_Steps : 0; }
 private:
+
+  uint8_t m_PPQN;
+  uint8_t m_TracksCount;
+  bool m_Running;
+  uint8_t m_ClockCount;
 
   class TrackBase
   {
@@ -124,6 +131,7 @@ private:
         // Midi Note beenden
       }
     }
+
     uint32_t m_Steps;
     int8_t m_StepCount;
     uint8_t m_EndStep;
@@ -159,10 +167,6 @@ private:
     LED_Base& m_Led;
   };
 
-  uint8_t m_PPQN;
-  uint8_t m_TracksCount;
-  bool m_Running;
-  uint8_t m_ClockCount;
   Track<Trigger1> m_Track1;
   Track<Trigger2> m_Track2;
   Track<Trigger3> m_Track3;
