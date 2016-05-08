@@ -13,6 +13,8 @@
 using namespace avrlib;
 class App;
 
+static const bool GREEN = false;
+static const bool RED = true;
 class Ui
 {
 public:

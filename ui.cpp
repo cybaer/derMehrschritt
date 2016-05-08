@@ -9,8 +9,7 @@
 #include "appHWTest.h"
 #include "appTriggerSeq.h"
 
-static const bool GREEN = false;
-static const bool RED = true;
+
 Ui::Ui(void)
 {
   //m_App = &HWTest;

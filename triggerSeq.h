@@ -29,7 +29,7 @@ public:
     m_Tracks[1] = &m_Track2;
     m_Tracks[2] = &m_Track3;
     m_Tracks[3] = &m_Track4;
-    m_Tracks[0]->m_Steps = 0x11111111;
+    m_Tracks[0]->m_Steps = 0x11151131;
     m_Tracks[1]->m_Steps = 0x44444444;
     m_Tracks[2]->m_Steps = 0xAAAAAAAA;
     m_Tracks[3]->m_Steps = 0x00000000;
@@ -68,8 +68,13 @@ public:
       m_Tracks[i]->OnReset();
     }
   }
-  void toggleStep(uint8_t row, uint8_t step);
   void setPPQN(uint8_t ppqn) { m_PPQN = ppqn; }
+
+  void toggleStep(const uint8_t track, const uint8_t step)
+  {
+    uint32_t steps = 1L << step;
+    m_Tracks[track]->m_Steps ^= steps;
+  }
 
   uint8_t getTracksCount(void) const { return m_TracksCount; }
   uint32_t getSteps(const uint8_t track) const { return track <= m_TracksCount ? m_Tracks[track]->m_Steps : 0; }
