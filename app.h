@@ -8,6 +8,7 @@
 #ifndef APP_H_
 #define APP_H_
 
+#include "HardwareConfig.h"
 #include "avrlib/base.h"
 
 class App
@@ -30,6 +31,10 @@ public:
   virtual void OnClickSuperSwitch(void) {};
   virtual void OnLongClickSuperSwitch(void) {};
   virtual void OnReleaseSuperSwitch(void) {};
+
+  static void FlushOutputBuffer(uint8_t size);
+  static void SendNow(uint8_t byte);
+  static void Send3(uint8_t a, uint8_t b, uint8_t c);
 };
 
 #endif /* APP_H_ */

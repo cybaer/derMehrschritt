@@ -33,6 +33,9 @@ public:
     m_Tracks[1]->m_Steps = 0x44444444;
     m_Tracks[2]->m_Steps = 0xAAAAAAAA;
     m_Tracks[3]->m_Steps = 0x00000000;
+    m_Track1.m_Note = 35;
+    m_Track2.m_Note = 38;
+    m_Track3.m_Note = 42;
   }
 
   void OnClock(void)
@@ -72,7 +75,7 @@ public:
 
   void toggleStep(const uint8_t track, const uint8_t step)
   {
-    uint32_t steps = 1L << step;
+    uint32_t steps =  1L << step;
     m_Tracks[track]->m_Steps ^= steps;
   }
 
@@ -91,9 +94,10 @@ private:
     TrackBase(void)
     : m_Steps(0)
     , m_StepCount(-1)
-    , m_EndStep(8)
+    , m_EndStep(32)
     , m_GateLen(4)
     , m_GateTicks(0)
+    , m_Note(31)
     , m_NoteActive(false)
     {}
 
@@ -117,17 +121,7 @@ private:
         }
       }
     }
-    void playNextStep(void)
-    {
-      if(++m_StepCount == m_EndStep)
-      {
-        m_StepCount = 0;
-      }
-      m_NoteActive = m_Steps & 1<<m_StepCount;
-      m_GateTicks = m_GateLen;
-      // letzte Note beenden ?
-      // Midi Note spielen
-    }
+    void playNextStep(void);
     void releaseNote(void)
     {
       if(--m_GateTicks == 0)
@@ -142,6 +136,7 @@ private:
     uint8_t m_EndStep;
     uint8_t m_GateLen;
     uint8_t m_GateTicks;
+    uint8_t m_Note;
     bool m_NoteActive;
   };
 
@@ -178,6 +173,5 @@ private:
   Track<Trigger4> m_Track4;
   TrackBase* m_Tracks[4];
 };
-
 
 #endif /* TRIGGERSEQ_H_ */

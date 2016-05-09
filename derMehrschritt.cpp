@@ -28,10 +28,13 @@ void __cxa_pure_virtual() {};
 
 using namespace avrlib;
 using namespace midi;
+
+void handleReceivedMidiData(void);
+void sendOutBufferedMidiData(void);
+
 // Midi input.
 Serial<MidiPort, 31250, POLLED, POLLED> midi_io;
 MidiStreamParser<MidiHandler> midiParser;
-
 
 volatile uint8_t num_clock_ticks = 0;
 volatile bool poll = false;
@@ -39,32 +42,51 @@ volatile bool poll = false;
 ISR(TIMER1_COMPA_vect)
 {
   PwmChannel1A::set_frequency(clock.Tick());
-
-  //Debug1::Toggle();
   if(clock.running())
   {
     ++num_clock_ticks;
-
   }
 }
 
-
 ISR(TIMER2_OVF_vect, ISR_NOBLOCK)
-{ //ca 4kHz
+{
+  //ca 4kHz
+  handleReceivedMidiData();
+  sendOutBufferedMidiData();
 
   while (num_clock_ticks)
   {
     --num_clock_ticks;
     ui.OnClock(); // reicht Clock an die App weiter
-    //Debug1::Toggle();
   }
   static int8_t subClock = 0;
   subClock = (subClock + 1) & 3;
 
   if (subClock == 0)
   { // 1kHz
-    //Debug1::Toggle();
     poll = true;
+  }
+}
+
+inline void handleReceivedMidiData(void)
+{
+  if (midi_io.readable())
+  {
+    uint8_t byte = midi_io.ImmediateRead();
+    if (byte != 0xfe)
+    {
+      midiParser.PushByte(byte);
+    }
+    midi_io.Write(byte);
+  }
+}
+
+inline void sendOutBufferedMidiData(void)
+{
+  if (MidiHandler::OutputBuffer::readable() && midi_io.writable())
+  {
+    //LedOut::High();
+    midi_io.Overwrite(MidiHandler::OutputBuffer::ImmediateRead());
   }
 }
 
@@ -129,16 +151,6 @@ int main(void)
 
   while(1)
   {
-    if (midi_io.readable())
-    {
-      uint8_t byte = midi_io.ImmediateRead();
-      if (byte != 0xfe)
-      {
-        midiParser.PushByte(byte);
-      }
-      midi_io.Write(byte);
-    }
-
     if(poll)
     {
       poll = false;
