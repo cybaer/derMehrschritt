@@ -43,6 +43,10 @@ void AppTriggerSeq::OnXcrement(int8_t xcrement)
       m_Bpm += xcrement;
       clock.update(m_Bpm);
     }
+    if(ui.m_SwitchesActive == SW_1_4_COLUMN4)
+    {
+      m_Seq.xcrementGateLen(xcrement);
+    }
   }
 }
 

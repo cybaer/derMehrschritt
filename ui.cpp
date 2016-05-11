@@ -93,12 +93,12 @@ void Ui::poll(void)
 void Ui::readSwitchMatrix(void)
 {
   uint8_t val = 0;
-  m_Switches = 0;
+  m_SwitchesActive = 0;
   for(int8_t i=0; i<4; i++)
   {
     val = m_SwitchRows[i]->refresh();
-    m_Switches <<= 4;
-    m_Switches |= val & 0x0f;
+    m_SwitchesActive <<= 4;
+    m_SwitchesActive |= val & 0x0f;
   }
 }
 
@@ -108,8 +108,6 @@ void Ui::doEvents(void)
     m_App->OnClickSuperSwitch();
   if(m_SuperSwitch.released())
       m_App->OnReleaseSuperSwitch();
-
-
 
   int8_t idx = NIL;
   int8_t row = NIL;

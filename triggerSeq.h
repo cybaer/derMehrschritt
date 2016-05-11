@@ -79,6 +79,16 @@ public:
     m_Tracks[track]->m_Steps ^= steps;
   }
 
+  void xcrementGateLen(int8_t xcrement)
+  {
+    for(int8_t i= 0; i<m_TracksCount; i++)
+    {
+      uint8_t x = m_Tracks[i]->xcrementGateLen(xcrement);
+      ui.m_Display.setCursor(120,20);
+          ui.m_Display.write(x+48);
+    }
+  }
+
   uint8_t getTracksCount(void) const { return m_TracksCount; }
   uint32_t getSteps(const uint8_t track) const { return track <= m_TracksCount ? m_Tracks[track]->m_Steps : 0; }
 private:
@@ -130,11 +140,20 @@ private:
         // Midi Note beenden
       }
     }
+    int8_t xcrementGateLen(int8_t xcrement)
+    {
+      m_GateLen += xcrement;
+      if(m_GateLen < 1)
+        m_GateLen = 1;
+      if(m_GateLen > 23)
+        m_GateLen = 23;
+      return m_GateLen;
+    }
 
     uint32_t m_Steps;
     int8_t m_StepCount;
-    uint8_t m_EndStep;
-    uint8_t m_GateLen;
+    int8_t m_EndStep;
+    int8_t m_GateLen;
     uint8_t m_GateTicks;
     uint8_t m_Note;
     bool m_NoteActive;

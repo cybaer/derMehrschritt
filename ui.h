@@ -15,6 +15,8 @@ class App;
 
 static const bool GREEN = false;
 static const bool RED = true;
+static const uint16_t SW_COLUMN4 = 0x8888;
+static const uint16_t SW_1_4_COLUMN4 = 0x8008;
 class Ui
 {
 public:
@@ -38,7 +40,7 @@ public:
   SwitchRow_3 m_SwitchRow_3;
   SwitchRow_4 m_SwitchRow_4;
   SwitchGroupBase* m_SwitchRows[4];
-
+  uint16_t m_SwitchesActive;
   SWITCH_17 m_SuperSwitch;
 
   Display m_Display;
@@ -49,7 +51,7 @@ private:
   void testSwitchLED(void);
   bool isScanMode(void);
 
-  uint16_t m_Switches;
+
   int8_t m_Xcrement;
   int16_t m_Encoder_hold_time;
   App* m_App;
