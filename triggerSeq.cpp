@@ -32,5 +32,5 @@ void TriggerSequencer::TrackBase::playNextStep(void)
       // letzte Note beenden ?
       // Midi Note spielen
       if(m_NoteActive)
-        TriggerSeq.Send3(0x99, m_Note, 65);
+        TriggerSeq.Send3(0x99, m_Note, 127);
     }

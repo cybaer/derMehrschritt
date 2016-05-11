@@ -45,9 +45,11 @@ public:
   Encoder m_Encoder;
 
 private:
+  void readSwitchMatrix(void);
   void testSwitchLED(void);
   bool isScanMode(void);
 
+  uint16_t m_Switches;
   int8_t m_Xcrement;
   int16_t m_Encoder_hold_time;
   App* m_App;

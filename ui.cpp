@@ -79,10 +79,8 @@ void Ui::init()
 
 void Ui::poll(void)
 {
-  m_SwitchRow_1.refresh();
-  m_SwitchRow_2.refresh();
-  m_SwitchRow_3.refresh();
-  m_SwitchRow_4.refresh();
+  readSwitchMatrix();
+
   m_SuperSwitch.refresh();
 
   m_Xcrement = m_Encoder.Read();
@@ -90,6 +88,17 @@ void Ui::poll(void)
   if(m_Encoder.immediate_value() == 0x00)
   {
      ++m_Encoder_hold_time;
+  }
+}
+void Ui::readSwitchMatrix(void)
+{
+  uint8_t val = 0;
+  m_Switches = 0;
+  for(int8_t i=0; i<4; i++)
+  {
+    val = m_SwitchRows[i]->refresh();
+    m_Switches <<= 4;
+    m_Switches |= val & 0x0f;
   }
 }
 
