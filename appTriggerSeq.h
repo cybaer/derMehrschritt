@@ -35,7 +35,7 @@ private:
   bool m_EditMode;
   uint16_t m_Bpm;
   bool m_Started;
-  int8_t m_StepGroup;
+  int8_t m_ActiveGroupOfSteps;
   int8_t m_MaxStepGroup;
 
   TriggerSequencer m_Seq;

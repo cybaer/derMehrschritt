@@ -14,10 +14,12 @@
 
 class TriggerSequencer
 {
+  static const uint8_t PPQN = 24;
+  static const uint8_t TRACKS_COUNT = 4;
 public:
   TriggerSequencer(void)
-  : m_PPQN(24)
-  , m_TracksCount(4)
+  : m_PPQN(PPQN)
+  , m_TracksCount(TRACKS_COUNT)
   , m_Running(false)
   , m_ClockCount(m_PPQN)
   , m_Track1(ui.m_LedRow_1.led4)
@@ -29,6 +31,7 @@ public:
     m_Tracks[1] = &m_Track2;
     m_Tracks[2] = &m_Track3;
     m_Tracks[3] = &m_Track4;
+    // some initializations for tests
     m_Tracks[0]->m_Steps = 0x11151131;
     m_Tracks[1]->m_Steps = 0x44444444;
     m_Tracks[2]->m_Steps = 0xAAAAAAAA;
@@ -85,7 +88,7 @@ public:
     {
       uint8_t x = m_Tracks[i]->xcrementGateLen(xcrement);
       ui.m_Display.setCursor(120,20);
-          ui.m_Display.write(x+48);
+      ui.m_Display.write(x+48);
     }
   }
 
@@ -190,7 +193,7 @@ private:
   Track<Trigger2> m_Track2;
   Track<Trigger3> m_Track3;
   Track<Trigger4> m_Track4;
-  TrackBase* m_Tracks[4];
+  TrackBase* m_Tracks[TRACKS_COUNT];
 };
 
 #endif /* TRIGGERSEQ_H_ */

@@ -84,6 +84,7 @@ void Ui::poll(void)
   m_SuperSwitch.refresh();
 
   m_Xcrement = m_Encoder.Read();
+  Debug1::set_value(RE_SwitchA::value());
 
   if(m_Encoder.immediate_value() == 0x00)
   {

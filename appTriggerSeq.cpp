@@ -9,12 +9,15 @@
 #include "clock.h"
 #include "ui.h"
 
+static const int8_t STEPS_PER_GROUP = 4;
+static const int8_t MAX_STEPS_COUNT = 32;
+
 AppTriggerSeq::AppTriggerSeq(void)
 : m_EditMode(false)
 , m_Bpm(120)
 , m_Started(false)
-, m_StepGroup(0)
-, m_MaxStepGroup(7)
+, m_ActiveGroupOfSteps(0)
+, m_MaxStepGroup(MAX_STEPS_COUNT / STEPS_PER_GROUP)
 , m_Seq()
 {
 }
@@ -52,11 +55,11 @@ void AppTriggerSeq::OnXcrement(int8_t xcrement)
 
 void AppTriggerSeq::xcrementStepGroup(int8_t xcrement)
 {
-  m_StepGroup += xcrement;
-  if(m_StepGroup < 0)
-    m_StepGroup = 0;
-  if(m_StepGroup > m_MaxStepGroup)
-    m_StepGroup = m_MaxStepGroup;
+  m_ActiveGroupOfSteps += xcrement;
+  if(m_ActiveGroupOfSteps < 0)
+    m_ActiveGroupOfSteps = 0;
+  if(m_ActiveGroupOfSteps >= m_MaxStepGroup)
+    m_ActiveGroupOfSteps = m_MaxStepGroup-1;
 
 }
 void AppTriggerSeq::OnClick(void)
@@ -68,7 +71,7 @@ void AppTriggerSeq::OnClickSwitch(int8_t row, int8_t index)
 {
   if(m_EditMode)
   {
-    m_Seq.toggleStep(row, index + 4*m_StepGroup);
+    m_Seq.toggleStep(row, index + STEPS_PER_GROUP*m_ActiveGroupOfSteps);
     setLedsWithSteps();
   }
   else
@@ -109,7 +112,6 @@ void AppTriggerSeq::toRunMode(void)
 {
   m_EditMode = false;
 
-  // LEDs umschalten
   clearLeds();
   setLeds4LiveMode();
   //Display...
@@ -124,10 +126,11 @@ void AppTriggerSeq::toEditMode(void)
 void AppTriggerSeq::setLedsWithSteps(void)
 {
   ui.m_Display.setCursor(120,0);
-    ui.m_Display.write(m_StepGroup+48);
+  ui.m_Display.write(m_ActiveGroupOfSteps+48);
+
   for(int8_t i=0; i<m_Seq.getTracksCount(); i++)
   {
-    ui.m_LedRows[i]->setWithMask(m_Seq.getSteps(i) >> 4*m_StepGroup);
+    ui.m_LedRows[i]->setWithMask(m_Seq.getSteps(i) >> 4*m_ActiveGroupOfSteps);
   }
 }
 

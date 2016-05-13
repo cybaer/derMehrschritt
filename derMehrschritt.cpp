@@ -156,12 +156,13 @@ int main(void)
       poll = false;
 
       portExtenders<AllExtender>::ReadIO();
+      //Debug1::High();
       ui.poll();
       ui.doEvents();
 
       portExtenders<AllExtender>::WriteIO();
 
-      //Debug1::High();
+
       ui.m_Display.updatePageByPage();
       //Debug1::Low();
     }
