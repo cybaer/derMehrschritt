@@ -16,6 +16,8 @@ class TriggerSequencer
 {
   static const uint8_t PPQN = 24;
   static const uint8_t TRACKS_COUNT = 4;
+  static const uint8_t MAX_GATE_LEN = PPQN-1;
+  static const uint8_t MAX_STEPS = 32;
 public:
   TriggerSequencer(void)
   : m_PPQN(PPQN)
@@ -87,11 +89,23 @@ public:
     for(int8_t i= 0; i<m_TracksCount; i++)
     {
       uint8_t x = m_Tracks[i]->xcrementGateLen(xcrement);
+
+      //debug
       ui.m_Display.setCursor(120,20);
       ui.m_Display.write(x+48);
     }
   }
+void xcrementTrackLen(int8_t xcrement)
+  {
+    for(int8_t i= 0; i<m_TracksCount; i++)
+    {
+      uint8_t x = m_Tracks[i]->xcrementTrackLen(xcrement);
 
+      //debug
+      ui.m_Display.setCursor(120,40);
+      ui.m_Display.write(x+48);
+    }
+  }
   uint8_t getTracksCount(void) const { return m_TracksCount; }
   uint32_t getSteps(const uint8_t track) const { return track <= m_TracksCount ? m_Tracks[track]->m_Steps : 0; }
 private:
@@ -107,7 +121,7 @@ private:
     TrackBase(void)
     : m_Steps(0)
     , m_StepCount(-1)
-    , m_EndStep(32)
+    , m_EndStep(MAX_STEPS)
     , m_GateLen(4)
     , m_GateTicks(0)
     , m_Note(31)
@@ -148,11 +162,19 @@ private:
       m_GateLen += xcrement;
       if(m_GateLen < 1)
         m_GateLen = 1;
-      if(m_GateLen > 23)
-        m_GateLen = 23;
+      if(m_GateLen > MAX_GATE_LEN)
+        m_GateLen = MAX_GATE_LEN;
       return m_GateLen;
     }
-
+    int8_t xcrementTrackLen(int8_t xcrement)
+    {
+      m_EndStep += xcrement;
+      if(m_EndStep < 1)
+        m_EndStep = 1;
+      if(m_EndStep > MAX_STEPS)
+        m_EndStep = MAX_STEPS;
+      return m_EndStep;
+    }
     uint32_t m_Steps;
     int8_t m_StepCount;
     int8_t m_EndStep;

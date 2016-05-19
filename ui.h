@@ -15,8 +15,26 @@ class App;
 
 static const bool GREEN = false;
 static const bool RED = true;
-static const uint16_t SW_COLUMN4 = 0x8888;
-static const uint16_t SW_1_4_COLUMN4 = 0x8008;
+// Switch_Row_Column
+static const uint32_t SW_1_1 = 0x00000001;
+static const uint32_t SW_1_2 = 0x00000002;
+static const uint32_t SW_1_3 = 0x00000004;
+static const uint32_t SW_1_4 = 0x00000008;
+static const uint32_t SW_2_1 = 0x00000100;
+static const uint32_t SW_2_2 = 0x00000200;
+static const uint32_t SW_2_3 = 0x00000400;
+static const uint32_t SW_2_4 = 0x00000800;
+static const uint32_t SW_3_1 = 0x00010000;
+static const uint32_t SW_3_2 = 0x00020000;
+static const uint32_t SW_3_3 = 0x00040000;
+static const uint32_t SW_3_4 = 0x00080000;
+static const uint32_t SW_4_1 = 0x01000000;
+static const uint32_t SW_4_2 = 0x02000000;
+static const uint32_t SW_4_3 = 0x04000000;
+static const uint32_t SW_4_4 = 0x08000000;
+static const uint32_t SW_COLUMN4 = SW_1_4 | SW_2_4 | SW_3_4 | SW_4_4;
+static const uint32_t SW_1_AND_4_COLUMN4 = SW_1_4 | SW_4_4;
+static const uint32_t SW_1_AND_4_COLUMN3 = SW_1_3 | SW_4_3;
 class Ui
 {
 public:
@@ -40,7 +58,8 @@ public:
   SwitchRow_3 m_SwitchRow_3;
   SwitchRow_4 m_SwitchRow_4;
   SwitchGroupBase* m_SwitchRows[4];
-  uint16_t m_SwitchesActive;
+  typedef union { uint8_t Array[4];  uint32_t Int;} SwitchActive_t;
+  SwitchActive_t m_SwitchesActive;
   SWITCH_17 m_SuperSwitch;
 
   Display m_Display;

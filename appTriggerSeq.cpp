@@ -11,6 +11,7 @@
 
 static const int8_t STEPS_PER_GROUP = 4;
 static const int8_t MAX_STEPS_COUNT = 32;
+static const uint32_t MATRIX_MASK[] = {1L << 0, 1L <<1*STEPS_PER_GROUP, 1L <<2*STEPS_PER_GROUP, 1L <<3*STEPS_PER_GROUP, 1L <<4*STEPS_PER_GROUP, 1L <<5*STEPS_PER_GROUP, 1L <<6*STEPS_PER_GROUP, 1L <<7*STEPS_PER_GROUP};
 
 AppTriggerSeq::AppTriggerSeq(void)
 : m_EditMode(false)
@@ -46,10 +47,21 @@ void AppTriggerSeq::OnXcrement(int8_t xcrement)
       m_Bpm += xcrement;
       clock.update(m_Bpm);
     }
-    if(ui.m_SwitchesActive == SW_1_4_COLUMN4)
+    if(ui.m_SwitchesActive.Int == SW_1_AND_4_COLUMN4)
     {
       m_Seq.xcrementGateLen(xcrement);
     }
+    if(ui.m_SwitchesActive.Int == SW_1_AND_4_COLUMN3)
+    {
+      m_Seq.xcrementTrackLen(xcrement);
+    }
+
+
+
+    //debug
+    ui.m_Display.setCursor(0,40);
+    ui.m_Display.write((ui.m_SwitchesActive.Array[0]&0xf)+48);
+    ui.m_Display.write((ui.m_SwitchesActive.Array[0] >> 4)+48);
   }
 }
 
@@ -130,7 +142,16 @@ void AppTriggerSeq::setLedsWithSteps(void)
 
   for(int8_t i=0; i<m_Seq.getTracksCount(); i++)
   {
-    ui.m_LedRows[i]->setWithMask(m_Seq.getSteps(i) >> 4*m_ActiveGroupOfSteps);
+    uint32_t steps = m_Seq.getSteps(i);
+    uint32_t mask = MATRIX_MASK[m_ActiveGroupOfSteps];
+    for(int8_t j=0; j<4; j++)
+    {
+      bool active = steps & mask;
+      ui.m_LedRows[i]->m_LedArray[j]->set(active);
+      mask <<= 1;
+    }
+
+    //ui.m_LedRows[i]->setWithMask(m_Seq.getSteps(i) >> 4*m_ActiveGroupOfSteps);
   }
 }
 

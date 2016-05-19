@@ -80,26 +80,27 @@ void Ui::init()
 void Ui::poll(void)
 {
   readSwitchMatrix();
-
+  /*m_SwitchRow_1.refresh();
+  m_SwitchRow_2.refresh();
+  m_SwitchRow_3.refresh();
+  m_SwitchRow_4.refresh();
+*/
   m_SuperSwitch.refresh();
 
   m_Xcrement = m_Encoder.Read();
-  Debug1::set_value(RE_SwitchA::value());
+  //Debug1::set_value(RE_SwitchA::value());
 
   if(m_Encoder.immediate_value() == 0x00)
   {
      ++m_Encoder_hold_time;
   }
 }
-void Ui::readSwitchMatrix(void)
+inline void Ui::readSwitchMatrix(void)
 {
-  uint8_t val = 0;
-  m_SwitchesActive = 0;
   for(int8_t i=0; i<4; i++)
   {
-    val = m_SwitchRows[i]->refresh();
-    m_SwitchesActive <<= 4;
-    m_SwitchesActive |= val & 0x0f;
+    uint8_t val = m_SwitchRows[i]->refresh();
+    m_SwitchesActive.Array[i] = val & 0x0f;
   }
 }
 
@@ -108,7 +109,7 @@ void Ui::doEvents(void)
   if(m_SuperSwitch.pressed())
     m_App->OnClickSuperSwitch();
   if(m_SuperSwitch.released())
-      m_App->OnReleaseSuperSwitch();
+    m_App->OnReleaseSuperSwitch();
 
   int8_t idx = NIL;
   int8_t row = NIL;
@@ -152,7 +153,6 @@ void Ui::doEvents(void)
 
 void Ui::OnClock(void)
 {
-
   m_App->OnClock();
 }
 
