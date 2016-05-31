@@ -92,16 +92,20 @@ inline void sendOutBufferedMidiData(void)
 
 void setNoteValue(uint8_t note)
 {
-  uint16_t volts = note;
-  volts <<= 5;
-  //dac.Write(volts, 0);
-  //dac.Write(volts, 1);
+  uint16_t volts = note-36;
+  volts <<= 6;
+
+  dac::Write(volts, 0);
+  dac::Write(volts, 1);
 }
 
 
 int main(void)
 {
   sei();
+  //test
+  Gpio<PortB, 4>::set_mode(DIGITAL_OUTPUT);
+  Gpio<PortB, 4>::set_value(false);
 
   _delay_ms(50);
   Dout::set_mode(DIGITAL_OUTPUT);
@@ -125,9 +129,11 @@ int main(void)
   midi_io.Init();
   spi_master::Init();
 
-  //dac.Init();
+  soft_spi::Init();
+
   _delay_ms(200);
 
+  dac::Init();
   ui.init();
   clock.init();
   portExtenders<AllExtender>::Init();
@@ -138,7 +144,7 @@ int main(void)
   // Configure the timers.
   Timer<1>::set_prescaler(1);
   Timer<1>::set_mode(0, _BV(WGM12), 3);
-  PwmChannel1A::set_frequency(625000L/120); //ToDo: magic number 6510
+  PwmChannel1A::set_frequency(625000L/120); //ToDo: magic numbers
   Timer<1>::StartCompare();
 
   //     16MHz / (8 * 510) = 3906,25 Hz
@@ -149,6 +155,7 @@ int main(void)
 
     Debug1::Low();
 
+
   while(1)
   {
     if(poll)
@@ -156,16 +163,14 @@ int main(void)
       poll = false;
 
       portExtenders<AllExtender>::ReadIO();
-Debug1::High();
+      //Debug1::High();
       ui.poll();
- Debug1::Low();
+      //Debug1::Low();
       ui.doEvents();
 
       portExtenders<AllExtender>::WriteIO();
 
-
       ui.m_Display.updatePageByPage();
-
     }
   }
 }

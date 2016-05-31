@@ -11,6 +11,7 @@
 #include "avrlib/base.h"
 #include "avrlib/gpio.h"
 #include "avrlib/spi.h"
+#include "avrlib/devices/shift_register.h"
 #include "avrlib/devices/mcp492x.h"
 #include "avrlib/devices/ssd1306.h"
 #include "avrlib/devices/mcp23s17.h"
@@ -43,8 +44,14 @@ using avrlib::SerialPort0;
 // MIDI
 typedef SerialPort0 MidiPort;
 
-//static const uint8_t DAC_GAIN = 1;
-//Dac<spi_master, UNBUFFERED_REFERENCE, DAC_GAIN> dac;
+// SW SPI and DAC
+typedef Gpio<PortB, 0> SoftSPI_Data;
+typedef Gpio<PortB, 1> SoftSPI_Clock;
+typedef Gpio<PortB, 2> SoftSPI_Latch;
+typedef ShiftRegisterOutput<SoftSPI_Latch, SoftSPI_Clock, SoftSPI_Data, 16, MSB_FIRST> soft_spi;
+
+static const uint8_t DAC_GAIN = 2;
+typedef Dac<soft_spi, UNBUFFERED_REFERENCE, DAC_GAIN> dac;
 
 // HW SPI
 static const uint8_t SPI_Speed = 2;
