@@ -51,7 +51,7 @@ typedef Gpio<PortB, 2> SoftSPI_Latch;
 typedef ShiftRegisterOutput<SoftSPI_Latch, SoftSPI_Clock, SoftSPI_Data, 16, MSB_FIRST> soft_spi;
 
 static const uint8_t DAC_GAIN = 2;
-typedef Dac<soft_spi, UNBUFFERED_REFERENCE, DAC_GAIN> dac;
+typedef Dac<soft_spi, UNBUFFERED_REFERENCE> dac;
 
 // HW SPI
 static const uint8_t SPI_Speed = 2;
