@@ -73,7 +73,6 @@ private:
 
   int8_t m_Xcrement;
   int16_t m_Encoder_hold_time;
-  App* m_App;
 
   class IUiState
   {

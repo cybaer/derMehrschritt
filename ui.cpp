@@ -13,7 +13,7 @@
 Ui::Ui(void)
 {
   //m_App = &HWTest;
-  m_App = &TriggerSeq;
+  app = &TriggerSeq;
 
   m_LedRows[0] = &m_LedRow_1;
   m_LedRows[1] = &m_LedRow_2;
@@ -73,7 +73,7 @@ void Ui::init()
   m_Display.display();
 
   m_Encoder.Init();
-  m_App->OnInit();
+  app->OnInit();
 
 }
 
@@ -107,9 +107,9 @@ inline void Ui::readSwitchMatrix(void)
 void Ui::doEvents(void)
 {
   if(m_SuperSwitch.pressed())
-    m_App->OnClickSuperSwitch();
+    app->OnClickSuperSwitch();
   if(m_SuperSwitch.released())
-    m_App->OnReleaseSuperSwitch();
+    app->OnReleaseSuperSwitch();
 
   int8_t idx = NIL;
   int8_t row = NIL;
@@ -120,7 +120,7 @@ void Ui::doEvents(void)
     if(m_SwitchRows[i]->getPressed(index))
     {
       //m_SuperLed.toggle();
-      m_App->OnClickSwitch(i, index);
+      app->OnClickSwitch(i, index);
       row = i;
       idx = index;
     }
@@ -131,13 +131,13 @@ void Ui::doEvents(void)
 
   if(m_Xcrement != 0)
   {
-    m_App->OnXcrement(m_Xcrement);
+    app->OnXcrement(m_Xcrement);
   }
 
   if(m_Encoder_hold_time > 800)
   {
     //LongClick-Event
-    m_App->OnLongClick();
+    app->OnLongClick();
   }
   if (m_Encoder.clicked())
   {
@@ -145,7 +145,7 @@ void Ui::doEvents(void)
     // press.
     if (m_Encoder_hold_time <= 800)
     {
-      m_App->OnClick();
+      app->OnClick();
     }
     m_Encoder_hold_time = 0;
   }
@@ -153,7 +153,7 @@ void Ui::doEvents(void)
 
 void Ui::OnClock(void)
 {
-  m_App->OnClock();
+  app->OnClock();
 }
 
 Ui ui;

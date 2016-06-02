@@ -8,6 +8,7 @@
 #include "appTriggerSeq.h"
 #include "clock.h"
 #include "ui.h"
+#include "scaler.h"
 
 static const int8_t STEPS_PER_GROUP = 4;
 static const int8_t MAX_STEPS_COUNT = 32;
@@ -32,6 +33,25 @@ void AppTriggerSeq::OnClock(void)
 {
   m_Seq.OnClock();
 }
+
+void AppTriggerSeq::OnNoteOn(uint8_t channel, uint8_t note, uint8_t velocity)
+{
+  uint16_t volts = scaleNote2VoltLinear(note);
+
+  dac::Write(volts, 0);
+
+  //  Hz/V
+  switch(note)
+  {
+  case 48: volts = 6*64; break;
+  case 60: volts = 12*64; break;
+  case 72: volts = 24*64; break;
+  case 84: volts = 48*64; break;
+
+  }
+  dac::Write(volts, 1, true);
+}
+
 void AppTriggerSeq::OnXcrement(int8_t xcrement)
 {
   if(m_EditMode)

@@ -18,6 +18,7 @@ class TriggerSequencer
   static const uint8_t TRACKS_COUNT = 4;
   static const uint8_t MAX_GATE_LEN = PPQN-1;
   static const uint8_t MAX_STEPS = 32;
+
 public:
   TriggerSequencer(void)
   : m_PPQN(PPQN)
@@ -108,8 +109,8 @@ void xcrementTrackLen(int8_t xcrement)
   }
   uint8_t getTracksCount(void) const { return m_TracksCount; }
   uint32_t getSteps(const uint8_t track) const { return track <= m_TracksCount ? m_Tracks[track]->m_Steps : 0; }
-private:
 
+private:
   uint8_t m_PPQN;
   uint8_t m_TracksCount;
   bool m_Running;

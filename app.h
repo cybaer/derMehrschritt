@@ -37,4 +37,6 @@ public:
   static void Send3(uint8_t a, uint8_t b, uint8_t c);
 };
 
+extern App* app;
+
 #endif /* APP_H_ */

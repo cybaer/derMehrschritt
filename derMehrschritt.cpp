@@ -90,24 +90,7 @@ inline void sendOutBufferedMidiData(void)
   }
 }
 
-void setNoteValue(uint8_t note)
-{
-  uint16_t volts = note-36;
-  volts <<= 6;
 
-  dac::Write(volts, 0);
-
-  //  Hz/V
-  switch(note)
-  {
-  case 48: volts = 6*64; break;
-  case 60: volts = 12*64; break;
-  case 72: volts = 24*64; break;
-  case 84: volts = 48*64; break;
-
-  }
-  dac::Write(volts, 1, true);
-}
 
 
 int main(void)

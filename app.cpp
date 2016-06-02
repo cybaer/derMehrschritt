@@ -49,3 +49,7 @@ void App::FlushOutputBuffer(uint8_t requested_size)
     midi_out.Write(MidiHandler::OutputBuffer::Read());
   }
 }
+
+/* extern */
+App* app;
+

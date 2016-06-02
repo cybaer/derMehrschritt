@@ -18,6 +18,9 @@ public:
   virtual void OnInit(void);
   virtual void OnClock(void);
   virtual void OnXcrement(int8_t xcrement);
+  // Midi
+  virtual void OnNoteOn(uint8_t channel, uint8_t note, uint8_t velocity);
+  virtual void OnNoteOff(uint8_t channel, uint8_t note, uint8_t velocity) {};
   virtual void OnClick(void);
   //virtual void OnLongClick(void);
   virtual void OnClickSwitch(int8_t row, int8_t index);
