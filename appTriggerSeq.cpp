@@ -37,19 +37,10 @@ void AppTriggerSeq::OnClock(void)
 void AppTriggerSeq::OnNoteOn(uint8_t channel, uint8_t note, uint8_t velocity)
 {
   uint16_t volts = scaleNote2VoltLinear(note);
+  dac::Write(volts, 0, LowGain);
 
-  dac::Write(volts, 0);
-
-  //  Hz/V
-  switch(note)
-  {
-  case 48: volts = 6*64; break;
-  case 60: volts = 12*64; break;
-  case 72: volts = 24*64; break;
-  case 84: volts = 48*64; break;
-
-  }
-  dac::Write(volts, 1, true);
+  volts = scaleNote2HzPerVolt(note);
+  dac::Write(volts, 1, HighGain);
 }
 
 void AppTriggerSeq::OnXcrement(int8_t xcrement)

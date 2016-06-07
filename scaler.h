@@ -20,6 +20,15 @@
 #ifndef SCALER_H_
 #define SCALER_H_
 
+// 36 ... 88
+static const uint16_t HzPerVolt[] = {
+ 192,  203,  216,  228,  242,  256,  272,  288,  305,  323,  342,  362,
+ 384,  407,  431,  457,  484,  513,  543,  575,  610,  646,  684,  725,
+ 768,  814,  862,  913,  968, 1025, 1086, 1151, 1219, 1292, 1368, 1450,
+1536, 1627, 1724, 1827, 1935, 2050, 2172, 2301, 2438, 2583, 2737, 2900,
+3072, 3255, 3448, 3653, 3870
+};
+
 static inline uint16_t scaleNote2VoltLinear(uint8_t note)
 {
   uint16_t volts;
@@ -32,6 +41,28 @@ static inline uint16_t scaleNote2VoltLinear(uint8_t note)
     volts = 84-36;
 
   return volts << 6;
+}
+
+static inline uint16_t scaleNote2HzPerVolt(uint8_t note)
+{
+  uint8_t index;
+
+  /*  Hz/V
+    switch(note)
+    {
+    case 48: volts = 6*64; break;
+    case 60: volts = 12*64; break;
+    case 72: volts = 24*64; break;
+    case 84: volts = 48*64; break;
+    }
+*/
+  if(note < 36)
+      index = 0;
+  else if(note < 88)
+      index = note - 36;
+  else
+      index = 88-36;
+  return HzPerVolt[index];
 }
 
 
