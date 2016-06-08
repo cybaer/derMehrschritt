@@ -31,40 +31,33 @@ static const uint16_t HzPerVolt[] = {
 
 static inline uint16_t scaleNote2VoltLinear(uint8_t note)
 {
+  static const uint8_t MinNoteLinear = 48;
+  static const uint8_t MaxNoteLinear = 96;
   uint16_t volts;
 
-  if(note < 48)
+  if(note < MinNoteLinear)
     volts = 12;
-  else if(note < 84)
+  else if(note < MaxNoteLinear)
     volts = note - 36;
   else
-    volts = 84-36;
+    volts = MaxNoteLinear-36;
 
   return volts << 6;
 }
 
 static inline uint16_t scaleNote2HzPerVolt(uint8_t note)
 {
+  static const uint8_t MinNoteHpV = 36;
+  static const uint8_t MaxNoteHpV = 88;
   uint8_t index;
 
-  /*  Hz/V
-    switch(note)
-    {
-    case 48: volts = 6*64; break;
-    case 60: volts = 12*64; break;
-    case 72: volts = 24*64; break;
-    case 84: volts = 48*64; break;
-    }
-*/
-  if(note < 36)
+  if(note < MinNoteHpV)
       index = 0;
-  else if(note < 88)
+  else if(note < MaxNoteHpV)
       index = note - 36;
   else
       index = 88-36;
   return HzPerVolt[index];
 }
-
-
 
 #endif /* SCALER_H_ */
