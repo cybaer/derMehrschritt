@@ -1,14 +1,3 @@
-//***************************************************************************
-//
-// Description: Contains a class (see below).
-//   
-// Originator:  Torsten Schumacher
-//
-// Copyright  ©: 2001-2008 by Siemens AG, PTD EA D
-//
-//****************************************************************************
-
-
 
   template<class T, class U>
   struct Typelist

@@ -13,6 +13,8 @@ public:
   AppHWTest(void);
   virtual void OnInit(void);
   virtual void OnClock(void);
+  virtual void OnNoteOn(uint8_t channel, uint8_t note, uint8_t velocity);
+  virtual void OnNoteOff(uint8_t channel, uint8_t note, uint8_t velocity);
   virtual void OnXcrement(int8_t xcrement);
   virtual void OnClick(void);
   virtual void OnLongClick(void);

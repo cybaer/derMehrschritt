@@ -9,6 +9,8 @@
 #include "ui.h"
 #include "HardwareConfig.h"
 #include "clock.h"
+#include "cv.h"
+
 
 int8_t Row = NIL;
 int8_t Index = NIL;
@@ -52,8 +54,6 @@ void AppHWTest::OnClock(void)
 
   setTrigger();
 
-
-
   static const int16_t _CLOCK = 12;  //2001
   static int16_t _clock = 0;
 
@@ -66,6 +66,16 @@ void AppHWTest::OnClock(void)
     ui.m_LedRows[Row]->toggle(Index);
 
   }
+}
+
+void AppHWTest::OnNoteOn(uint8_t channel, uint8_t note, uint8_t velocity)
+{
+  writeNote2Cv(note);
+  Dout::set_value(false);
+}
+void AppHWTest::OnNoteOff(uint8_t channel, uint8_t note, uint8_t velocity)
+{
+  Dout::set_value(true);
 }
 
 void AppHWTest::OnXcrement(int8_t xcrement)

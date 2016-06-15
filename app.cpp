@@ -24,7 +24,6 @@ using namespace avrlib;
 
 Serial<MidiPort, 31250, DISABLED, POLLED> midi_out;
 
-
 /* static */
 void App::SendNow(uint8_t byte)
 {
