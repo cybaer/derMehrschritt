@@ -52,23 +52,46 @@ void AppTriggerSeq::OnXcrement(int8_t xcrement)
   }
   else
   {
-    if(ui.m_SwitchRow_3.sw1.active())
+    switch(ui.m_SwitchesActive.Int)
+    {
+    case SW_3_1:
     {
       ui.m_SuperLed.toggle();
       m_Bpm += xcrement;
       clock.update(m_Bpm);
+      break;
     }
-    if(ui.m_SwitchesActive.Int == SW_1_AND_4_COLUMN4)
-    {
-      m_Seq.xcrementGateLen(xcrement);
-    }
-    if(ui.m_SwitchesActive.Int == SW_1_AND_4_COLUMN3)
-    {
+    case SW_1_3:
+      m_Seq.xcrementTrackLen(0, xcrement);
+      break;
+    case SW_2_3:
+      m_Seq.xcrementTrackLen(1, xcrement);
+      break;
+    case SW_3_3:
+      m_Seq.xcrementTrackLen(2, xcrement);
+      break;
+    case SW_4_3:
+      m_Seq.xcrementTrackLen(3, xcrement);
+      break;
+    case SW_1_AND_4_COLUMN3:
       m_Seq.xcrementTrackLen(xcrement);
+      break;
+    case SW_1_4:
+      m_Seq.xcrementGateLen(0, xcrement);
+      break;
+    case SW_2_4:
+      m_Seq.xcrementGateLen(1, xcrement);
+      break;
+    case SW_3_4:
+      m_Seq.xcrementGateLen(2, xcrement);
+      break;
+    case SW_4_4:
+      m_Seq.xcrementGateLen(3, xcrement);
+      break;
+     case SW_1_AND_4_COLUMN4:
+      m_Seq.xcrementGateLen(xcrement);
+      break;
     }
-
-
-
     //debug
     ui.m_Display.setCursor(0,40);
     ui.m_Display.write((ui.m_SwitchesActive.Array[0]&0xf)+48);
@@ -155,11 +178,22 @@ void AppTriggerSeq::setLedsWithSteps(void)
   {
     uint32_t steps = m_Seq.getSteps(i);
     uint32_t mask = MATRIX_MASK[m_ActiveGroupOfSteps];
+    uint8_t groupStep = m_ActiveGroupOfSteps * 4;
     for(int8_t j=0; j<4; j++)
     {
-      bool active = steps & mask;
-      ui.m_LedRows[i]->m_LedArray[j]->set(active);
-      mask <<= 1;
+      uint8_t step = groupStep + j;
+      if(step >= m_Seq.getStepsCount(i))
+      {
+        ui.m_LedRows[i]->m_LedArray[j]->setColor(RED);
+        ui.m_LedRows[i]->m_LedArray[j]->set();
+      }
+      else
+      {
+        bool active = steps & mask;
+        ui.m_LedRows[i]->m_LedArray[j]->setColor(GREEN);
+        ui.m_LedRows[i]->m_LedArray[j]->set(active);
+        mask <<= 1;
+      }
     }
 
     //ui.m_LedRows[i]->setWithMask(m_Seq.getSteps(i) >> 4*m_ActiveGroupOfSteps);

@@ -89,26 +89,34 @@ public:
   {
     for(int8_t i= 0; i<m_TracksCount; i++)
     {
-      uint8_t x = m_Tracks[i]->xcrementGateLen(xcrement);
+      xcrementGateLen(i, xcrement);
+    }
+  }
+  void xcrementGateLen(uint8_t track, int8_t xcrement)
+  {
+    uint8_t x = m_Tracks[track]->xcrementGateLen(xcrement);
 
       //debug
       ui.m_Display.setCursor(120,20);
       ui.m_Display.write(x+48);
-    }
   }
-void xcrementTrackLen(int8_t xcrement)
+  void xcrementTrackLen(int8_t xcrement)
   {
     for(int8_t i= 0; i<m_TracksCount; i++)
     {
-      uint8_t x = m_Tracks[i]->xcrementTrackLen(xcrement);
-
-      //debug
-      ui.m_Display.setCursor(120,40);
-      ui.m_Display.write(x+48);
+      xcrementTrackLen(i, xcrement);
     }
   }
-  uint8_t getTracksCount(void) const { return m_TracksCount; }
-  uint32_t getSteps(const uint8_t track) const { return track <= m_TracksCount ? m_Tracks[track]->m_Steps : 0; }
+  void xcrementTrackLen(uint8_t track, int8_t xcrement)
+  {
+    uint8_t x = m_Tracks[track]->xcrementTrackLen(xcrement);
+    //debug
+    ui.m_Display.setCursor(120,40);
+    ui.m_Display.write(x+48);
+  }
+  inline uint8_t getTracksCount(void) const { return m_TracksCount; }
+  inline uint32_t getSteps(const uint8_t track) const { return track <= m_TracksCount ? m_Tracks[track]->m_Steps : 0; }
+  inline uint8_t getStepsCount(const uint8_t track) { return m_Tracks[track]->m_EndStep; }
 
 private:
   uint8_t m_PPQN;

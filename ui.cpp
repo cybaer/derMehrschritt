@@ -12,8 +12,8 @@
 
 Ui::Ui(void)
 {
-  app = &HWTest;
-  //app = &TriggerSeq;
+  //app = &HWTest;
+  app = &TriggerSeq;
 
   m_LedRows[0] = &m_LedRow_1;
   m_LedRows[1] = &m_LedRow_2;
