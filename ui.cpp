@@ -8,12 +8,13 @@
 #include "ui.h"
 #include "appHWTest.h"
 #include "appTriggerSeq.h"
-
+#include "appM185.h"
 
 Ui::Ui(void)
 {
-  app = &HWTest;
+  //app = &HWTest;
   //app = &TriggerSeq;
+  app = &M185;
 
   m_LedRows[0] = &m_LedRow_1;
   m_LedRows[1] = &m_LedRow_2;
