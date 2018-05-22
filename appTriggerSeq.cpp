@@ -93,9 +93,9 @@ void AppTriggerSeq::OnXcrement(int8_t xcrement)
       break;
     }
     //debug
-    ui.m_Display.setCursor(0,40);
-    ui.m_Display.write((ui.m_SwitchesActive.Array[0]&0xf)+48);
-    ui.m_Display.write((ui.m_SwitchesActive.Array[0] >> 4)+48);
+ //   ui.m_Display.setCursor(0,40);
+ //   ui.m_Display.write((ui.m_SwitchesActive.Array[0]&0xf)+48);
+ //   ui.m_Display.write((ui.m_SwitchesActive.Array[0] >> 4)+48);
   }
 }
 
@@ -171,8 +171,8 @@ void AppTriggerSeq::toEditMode(void)
 
 void AppTriggerSeq::setLedsWithSteps(void)
 {
-  ui.m_Display.setCursor(120,0);
-  ui.m_Display.write(m_ActiveGroupOfSteps+48);
+ // ui.m_Display.setCursor(120,0);
+ // ui.m_Display.write(m_ActiveGroupOfSteps+48);
 
   for(int8_t i=0; i<m_Seq.getTracksCount(); i++)
   {

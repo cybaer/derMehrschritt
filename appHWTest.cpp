@@ -31,8 +31,8 @@ void setTrigger(void)
 {
   Trigger1::set_value(ui.m_SwitchRow_1.m_SwArray[3]->active());
   Trigger2::set_value(ui.m_SwitchRow_2.m_SwArray[3]->active());
-  Trigger3::set_value(ui.m_SwitchRow_3.m_SwArray[3]->active());
-  Trigger4::set_value(ui.m_SwitchRow_4.m_SwArray[3]->active());
+  //Trigger3::set_value(ui.m_SwitchRow_3.m_SwArray[3]->active());
+  //Trigger4::set_value(ui.m_SwitchRow_4.m_SwArray[3]->active());
 }
 
 AppHWTest::AppHWTest(void)
@@ -64,9 +64,19 @@ void AppHWTest::OnClock(void)
     //Debug1::High();
     _clock = 0;
     ui.m_LedRows[Row]->toggle(Index);
-
   }
+
+  Trigger4::Toggle();
 }
+void AppHWTest::OnStart(void)
+{
+  Trigger3::Low();
+};
+
+void AppHWTest::OnStop(void)
+{
+  Trigger3::High();
+};
 
 void AppHWTest::OnNoteOn(uint8_t channel, uint8_t note, uint8_t velocity)
 {
@@ -83,8 +93,8 @@ void AppHWTest::OnXcrement(int8_t xcrement)
   if(ui.m_SwitchRows[Row]->isActive(Index))
   {
     m_Values[Row*4+Index] += xcrement;
-    ui.m_Display.setCursor((Index+1)*25,(Row+1)*12);
-    ui.m_Display.write(m_Values[Row*4+Index]+48);
+ //   ui.m_Display.setCursor((Index+1)*25,(Row+1)*12);
+ //   ui.m_Display.write(m_Values[Row*4+Index]+48);
   }
   else
   {
@@ -92,11 +102,11 @@ void AppHWTest::OnXcrement(int8_t xcrement)
 
     clock.update(m_Counter1, 1, 1);
 
-    ui.m_Display.fillRect(0, 59,128, 4,BLACK);
-    ui.m_Display.drawRect(0, 59,128, 4,WHITE);
-  ui.m_Display.fillRect(m_Counter1*32, 60,32, 2,WHITE);
-  ui.m_Display.setCursor(120,0);
-  ui.m_Display.write(m_Counter1+48);
+  //  ui.m_Display.fillRect(0, 59,128, 4,BLACK);
+  //  ui.m_Display.drawRect(0, 59,128, 4,WHITE);
+  //ui.m_Display.fillRect(m_Counter1*32, 60,32, 2,WHITE);
+  //ui.m_Display.setCursor(120,0);
+  //ui.m_Display.write(m_Counter1+48);
   }
 }
 
@@ -107,7 +117,7 @@ void AppHWTest::OnClick(void)
 
 void AppHWTest::OnLongClick(void)
 {
-  ui.m_Display.clear();
+ // ui.m_Display.clear();
 }
 
 void AppHWTest::OnClickSwitch(int8_t row, int8_t index)
@@ -115,9 +125,9 @@ void AppHWTest::OnClickSwitch(int8_t row, int8_t index)
   Row = row;
   Index = index;
   ui.m_LedRows[row]->set(index);
-  ui.m_Display.setCursor(100, 0);
-  ui.m_Display.write(row+48);
-  ui.m_Display.write(index+48);
+//  ui.m_Display.setCursor(100, 0);
+//  ui.m_Display.write(row+48);
+//  ui.m_Display.write(index+48);
 
 }
 

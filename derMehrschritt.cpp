@@ -164,7 +164,7 @@ int main(void)
 
       portExtenders<AllExtender>::WriteIO();
 
-      ui.m_Display.updatePageByPage();
+      //ui.m_Display.updatePageByPage();
     }
   }
 }

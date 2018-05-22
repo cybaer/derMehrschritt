@@ -16,7 +16,7 @@
 VERSION        = 0.1
 MCU_NAME       = 1284
 TARGET         = derMehrschritt
-PACKAGES       = avrlib avrlib/devices  ./  Adafruit_GFX_Library
+PACKAGES       = avrlib avrlib/devices  ./  Adafruit_GFX_Library lib/graphics
 
 INC=$(/home/cybaer/git/derMehrschritt/Adafruit_GFX_Library/)
 INC_PARAMS= -IAdafruit_GFX_Library/

@@ -30,15 +30,15 @@
 
     static void Clock()
     {
-
+      app->OnClock();
     }
     static void Start()
     {
-
+      app->OnStart();
     }
     static void Stop()
     {
-
+      app->OnStop();
     }
   };
 

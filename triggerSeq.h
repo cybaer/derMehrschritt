@@ -81,7 +81,7 @@ public:
 
   void toggleStep(const uint8_t track, const uint8_t step)
   {
-    uint32_t steps =  1L << step;
+    uint32_t steps = 1L << step;
     m_Tracks[track]->m_Steps ^= steps;
   }
 
@@ -97,8 +97,8 @@ public:
     uint8_t x = m_Tracks[track]->xcrementGateLen(xcrement);
 
       //debug
-      ui.m_Display.setCursor(120,20);
-      ui.m_Display.write(x+48);
+    //  ui.m_Display.setCursor(120,20);
+    //  ui.m_Display.write(x+48);
   }
   void xcrementTrackLen(int8_t xcrement)
   {
@@ -111,8 +111,8 @@ public:
   {
     uint8_t x = m_Tracks[track]->xcrementTrackLen(xcrement);
     //debug
-    ui.m_Display.setCursor(120,40);
-    ui.m_Display.write(x+48);
+   // ui.m_Display.setCursor(120,40);
+   // ui.m_Display.write(x+48);
   }
   inline uint8_t getTracksCount(void) const { return m_TracksCount; }
   inline uint32_t getSteps(const uint8_t track) const { return track <= m_TracksCount ? m_Tracks[track]->m_Steps : 0; }

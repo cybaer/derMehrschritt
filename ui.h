@@ -62,7 +62,7 @@ public:
   SwitchActive_t m_SwitchesActive;
   SWITCH_17 m_SuperSwitch;
 
-  Display m_Display;
+  //Display m_Display;
   Encoder m_Encoder;
 
 private:

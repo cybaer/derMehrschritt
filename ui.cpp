@@ -12,8 +12,8 @@
 
 Ui::Ui(void)
 {
-  //app = &HWTest;
-  app = &TriggerSeq;
+  app = &HWTest;
+  //app = &TriggerSeq;
 
   m_LedRows[0] = &m_LedRow_1;
   m_LedRows[1] = &m_LedRow_2;
@@ -51,7 +51,7 @@ void Ui::init()
   m_LedRow_3.set();
   m_LedRow_4.set();
 */
-
+/****
   m_Display.init();
   m_Display.setTextColor(WHITE, BLACK);
   m_Display.write('d');
@@ -69,9 +69,9 @@ void Ui::init()
   m_Display.write('i');
   m_Display.write('t');
   m_Display.write('t');
-  m_Display.drawFastHLine(0, 9, 128,WHITE);
+  //m_Display.drawFastHLine(0, 9, 128,WHITE);
   m_Display.display();
-
+*/
   m_Encoder.Init();
   app->OnInit();
 
@@ -80,15 +80,9 @@ void Ui::init()
 void Ui::poll(void)
 {
   readSwitchMatrix();
-  /*m_SwitchRow_1.refresh();
-  m_SwitchRow_2.refresh();
-  m_SwitchRow_3.refresh();
-  m_SwitchRow_4.refresh();
-*/
   m_SuperSwitch.refresh();
 
   m_Xcrement = m_Encoder.Read();
-  //Debug1::set_value(RE_SwitchA::value());
 
   if(m_Encoder.immediate_value() == 0x00)
   {
