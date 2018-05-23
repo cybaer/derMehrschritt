@@ -10,8 +10,10 @@
 
 #include "app.h"
 #include "stepM185.h"
+#include "M185Sequencer.h"
 
 static const int8_t MAX_STEPS = 4;
+enum M185Mode {LiveMode=0, EditMode};
 
 class AppM185 : public App
 {
@@ -34,7 +36,10 @@ public:
 
 private:
 //  uint8_t merker;
+  M185Sequencer m_Seq;
   StepM185 m_Steps[MAX_STEPS];
+  M185Mode m_Mode;
+  bool m_Started;
 };
 
 extern AppM185 M185;
