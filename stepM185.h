@@ -8,6 +8,8 @@
 #ifndef STEPM185_H_
 #define STEPM185_H_
 
+#include "HardwareConfig.h"
+
 enum StepMode {GateOff, SingleGate, MultipleGate, GateHold};
 
 class StepM185
@@ -18,6 +20,11 @@ public:
   , m_PulseCount(1)
   , m_Mode(GateOff)
   {}
+
+  void OnClock(void)
+  {
+
+  }
 
 private:
   uint8_t m_Pitch;

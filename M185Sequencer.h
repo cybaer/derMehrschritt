@@ -20,15 +20,34 @@
 #ifndef M185SEQUENCER_H_
 #define M185SEQUENCER_H_
 
+#include "stepM185.h"
+
+static const int8_t MAX_STEPS = 4;
+
 class M185Sequencer
 {
 public:
+  M185Sequencer(void)
+  : m_Running(false)
+  , m_ActualStep(0)
+  {}
+
   void OnStart(void) { m_Running = true; }
   void OnStop(void) { m_Running = false; }
   void OnReset() {};
+  void OnClock(void)
+  {
+    if(m_Running)
+    {
+
+    }
+  }
 
 private:
   bool m_Running;
+
+  int8_t m_ActualStep;
+  StepM185 m_Steps[MAX_STEPS];
 };
 
 
