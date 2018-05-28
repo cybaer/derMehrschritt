@@ -12,6 +12,20 @@
 
 enum StepMode {GateOff, SingleGate, MultipleGate, GateHold};
 
+struct SingleStepper
+{
+  bool IsStepEnd(void) { return m_End; }
+  void Reset(void) {}
+  void Tick(void)
+  {
+
+  }
+
+  uint8_t m_PPQN;
+  uint8_t m_ClockCount;
+  bool m_End;
+};
+
 class StepM185
 {
 public:
@@ -21,16 +35,20 @@ public:
   , m_Mode(GateOff)
   {}
 
-  void OnClock(void)
+  bool OnClock(void)
   {
-
+    m_Stepper.Tick();
+    return m_Stepper.IsStepEnd();
   }
 
 private:
   uint8_t m_Pitch;
   int8_t m_PulseCount;
   StepMode m_Mode;
+
+  SingleStepper m_Stepper;
 };
+
 
 
 

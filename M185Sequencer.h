@@ -30,6 +30,7 @@ public:
   M185Sequencer(void)
   : m_Running(false)
   , m_ActualStep(0)
+  , m_StepCount(MAX_STEPS)
   {}
 
   void OnStart(void) { m_Running = true; }
@@ -39,7 +40,12 @@ public:
   {
     if(m_Running)
     {
-
+      const bool endOfStep = m_Steps[m_ActualStep].OnClock();
+      if(endOfStep)
+      {
+        if(++m_ActualStep == m_StepCount)
+          m_ActualStep = 0;
+      }
     }
   }
 
@@ -47,6 +53,7 @@ private:
   bool m_Running;
 
   int8_t m_ActualStep;
+  int8_t m_StepCount;
   StepM185 m_Steps[MAX_STEPS];
 };
 
