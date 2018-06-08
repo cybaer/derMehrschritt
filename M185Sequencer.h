@@ -36,18 +36,8 @@ public:
   void OnStart(void) { m_Running = true; }
   void OnStop(void) { m_Running = false; }
   void OnReset() {};
-  void OnClock(void)
-  {
-    if(m_Running)
-    {
-      const bool endOfStep = m_Steps[m_ActualStep].OnClock();
-      if(endOfStep)
-      {
-        if(++m_ActualStep == m_StepCount)
-          m_ActualStep = 0;
-      }
-    }
-  }
+  void OnClock(void);
+  void setStepMode(int8_t step, StepMode mode);
 
 private:
   bool m_Running;
