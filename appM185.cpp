@@ -19,7 +19,7 @@ void AppM185::OnInit(void)
 
 void AppM185::OnClock(void)
 {
-
+  m_Seq.OnClock();
 }
 
 void AppM185::OnClickSwitch(int8_t row, int8_t index)

@@ -17,18 +17,24 @@
  *
  */
 #include "M185Sequencer.h"
-
+#include "ui.h"
 
 
 void M185Sequencer::OnClock(void)
 {
+  static int8_t c = 0;
+  if(++c &0x80)
+    ui.m_SuperLed.toggle();
   if(m_Running)
   {
     const bool endOfStep = m_Steps[m_ActualStep].OnClock();
     if(endOfStep)
     {
       if(++m_ActualStep == m_StepCount)
+      {
         m_ActualStep = 0;
+
+      }
     }
   }
 }

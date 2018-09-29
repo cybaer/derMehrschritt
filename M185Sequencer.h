@@ -22,13 +22,13 @@
 
 #include "stepM185.h"
 
-static const int8_t MAX_STEPS = 4;
+static const int8_t MAX_STEPS = 8;
 
 class M185Sequencer
 {
 public:
   M185Sequencer(void)
-  : m_Running(false)
+  : m_Running(true)
   , m_ActualStep(0)
   , m_StepCount(MAX_STEPS)
   {}
