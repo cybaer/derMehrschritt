@@ -48,11 +48,16 @@ ISR(TIMER1_COMPA_vect)
   }
 }
 
-ISR(TIMER2_OVF_vect, ISR_NOBLOCK)
+ISR(TIMER2_OVF_vect, ISR_NOBLOCK) // kann von anderem Interrupt unterbrochen werden
 {
   //ca 4kHz
   handleReceivedMidiData();
   sendOutBufferedMidiData();
+
+  if(ClockIn::isTriggered())
+  {
+    clock.ClockInEdge();
+  }
 
   while (num_clock_ticks)
   {
@@ -103,8 +108,7 @@ int main(void)
   _delay_ms(50);
   Dout::set_mode(DIGITAL_OUTPUT);
   Dout::set_value(false);
-  Din1::set_mode(DIGITAL_INPUT);
-  Din1::High();
+  ClockIn::init();
   Din2::set_mode(DIGITAL_INPUT);
   Din2::High();
 

@@ -33,7 +33,7 @@ public:
 
   static inline int16_t Tick()
   {
-    m_TickCount++;
+    ++m_TickCount;
     if(m_NewClockIn)
     {
       m_NewClockIn = false;
@@ -50,7 +50,7 @@ public:
 
     m_NewClockIn = true;
 
-    /// Better: calc new m_Inetrval in context of Tick() --> no safety problem with 16bit vars
+    /// Better: calc new m_Interval in context of Tick() --> no safety problem with 16bit vars
   }
 
   void update(uint16_t bpm, uint8_t multiplier = 1, uint8_t divider = 1/* ,uint8_t groove_template, uint8_t groove_amount*/);

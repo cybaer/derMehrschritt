@@ -18,7 +18,7 @@ int8_t Index = NIL;
 void readDin1AndSetLed13(void)
 {
   LED_Base& led13 = *ui.m_LedRow_4.m_LedArray[0];
-  led13.set(Din1::value());
+  led13.set(ClockIn::value());
 }
 
 void readDin2AndSetLed14(void)

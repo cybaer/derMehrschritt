@@ -18,6 +18,7 @@
 #include "avrlib/devices/bicolor_led_group.h"
 #include "avrlib/devices/switch_group.h"
 #include "avrlib/devices/rotary_encoder.h"
+#include "lib/ui/EdgeTrigger.h"
 #include "typelistDef.h"
 
 //#include "avrlib/parallel_io.h"
@@ -171,7 +172,7 @@ typedef Gpio<PortC, 2> RE_SwitchB;
 typedef RotaryEncoder<RE_SwitchA, RE_SwitchB, RE_Click> Encoder;
 
 // Digital in / out
-typedef Gpio<PortB, 3> Din1;
+typedef EdgeTrigger<Gpio<PortB, 3>, 0> ClockIn; //Din1
 typedef Gpio<PortA, 7> Din2;
 typedef Gpio<PortA, 4> Dout;
 
