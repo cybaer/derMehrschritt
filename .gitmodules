@@ -4,3 +4,6 @@
 [submodule "Adafruit_GFX_Library"]
 	path = Adafruit_GFX_Library
 	url = https://github.com/cybaer/Adafruit-GFX-Library.git
+[submodule "lib"]
+	path = lib
+	url = git@github.com:cybaer/lib
