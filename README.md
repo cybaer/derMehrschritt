@@ -1,1 +1,1 @@
-# Sequencer based on M-185
+# Eurorack Sequencer based on M-185
